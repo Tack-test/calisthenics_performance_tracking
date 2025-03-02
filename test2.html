@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calisthenics Progress Tracker</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1, h2, h3 {
+            margin: 0;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: none;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        .tab:hover {
+            background-color: #ddd;
+        }
+        
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeEffect 1s;
+        }
+        
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .save-button {
+            background-color: var(--secondary);
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        
+        .save-button:hover {
+            background-color: #27ae60;
+        }
+        
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            height: 400px;
+        }
+        
+        .difficulty {
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .beginner {
+            background-color: #3498db;
+        }
+        
+        .intermediate {
+            background-color: #2ecc71;
+        }
+        
+        .advanced {
+            background-color: #f39c12;
+        }
+        
+        .expert {
+            background-color: #e74c3c;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .add-exercise {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .progress-indicator {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .completed {
+            background-color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Calisthenics Progress Tracker</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'exercises')">Exercises</button>
+            <button class="tab" onclick="openTab(event, 'progress')">Progress</button>
+            <button class="tab" onclick="openTab(event, 'add')">Add Exercise</button>
+        </div>
+        
+        <div id="exercises" class="tab-content active">
+            <div class="controls">
+                <div class="filters">
+                    <label for="filter-difficulty">Filter by Difficulty:</label>
+                    <select id="filter-difficulty" onchange="filterExercises()">
+                        <option value="all">All Levels</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="expert">Expert</option>
+                    </select>
+                    
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by" onchange="sortExercises()">
+                        <option value="name">Name</option>
+                        <option value="difficulty">Difficulty</option>
+                        <option value="progress">Progress</option>
+                    </select>
+                </div>
+                
+                <button id="save-data" class="save-button">Save Data</button>
+            </div>
+            
+            <table id="exercises-table">
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Difficulty</th>
+                        <th>Current</th>
+                        <th>Goal</th>
+                        <th>Progress</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody id="exercises-body">
+                    <!-- Table content will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="progress" class="tab-content">
+            <div class="controls">
+                <div class="filters">
+                    <label for="chart-type">Chart Type:</label>
+                    <select id="chart-type" onchange="updateCharts()">
+                        <option value="progress">Overall Progress</option>
+                        <option value="difficulty">Progress by Difficulty</option>
+                        <option value="history">Progress History</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="progress-chart"></canvas>
+            </div>
+        </div>
+        
+        <div id="add" class="tab-content">
+            <div class="add-exercise">
+                <h2>Add New Exercise</h2>
+                <form id="add-exercise-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exercise-name">Exercise Name:</label>
+                            <input type="text" id="exercise-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise-difficulty">Difficulty Level:</label>
+                            <select id="exercise-difficulty" required>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exercise-current">Current Value:</label>
+                            <input type="number" id="exercise-current" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise-goal">Goal Value:</label>
+                            <input type="number" id="exercise-goal" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise-unit">Unit:</label>
+                            <select id="exercise-unit" required>
+                                <option value="reps">Repetitions</option>
+                                <option value="seconds">Seconds</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="meters">Meters</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="save-button">Add Exercise</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // Initial exercise data from the table provided
+        let exercisesData = [
+            { id: 1, name: "Jumping Jacks", difficulty: "beginner", current: 30, goal: 30, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 30}], completed: true },
+            { id: 2, name: "Pull-ups", difficulty: "intermediate", current: 15, goal: 30, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 15}], completed: false },
+            { id: 3, name: "Dips sur banc", difficulty: "beginner", current: 18, goal: 30, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 18}], completed: false },
+            { id: 4, name: "Push-ups", difficulty: "beginner", current: 13, goal: 50, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 13}], completed: false },
+            { id: 5, name: "Squats poids du corps", difficulty: "beginner", current: 30, goal: 50, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 30}], completed: false },
+            { id: 6, name: "Lunges sauté", difficulty: "beginner", current: 30, goal: 300, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 30}], completed: false },
+            { id: 7, name: "Hollow body hold", difficulty: "beginner", current: 50, goal: 300, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 50}], completed: false },
+            { id: 8, name: "Superman hold", difficulty: "beginner", current: 45, goal: 150, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 45}], completed: false },
+            { id: 9, name: "Planche", difficulty: "beginner", current: 75, goal: 300, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 75}], completed: false },
+            { id: 10, name: "Chin-ups", difficulty: "intermediate", current: 0, goal: 20, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 11, name: "Handstand", difficulty: "advanced", current: 0, goal: 60, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 12, name: "Muscle-up", difficulty: "advanced", current: 0, goal: 10, unit: "reps", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 13, name: "Human flag", difficulty: "advanced", current: 0, goal: 30, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 14, name: "Front lever", difficulty: "advanced", current: 0, goal: 30, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 15, name: "Back lever", difficulty: "advanced", current: 0, goal: 30, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 16, name: "Full Maltese", difficulty: "expert", current: 0, goal: 10, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 17, name: "Iron Cross", difficulty: "expert", current: 0, goal: 10, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false },
+            { id: 18, name: "One-arm handstand", difficulty: "expert", current: 0, goal: 10, unit: "seconds", history: [{date: new Date().toISOString().split('T')[0], value: 0}], completed: false }
+        ];
+        
+        // Load data from localStorage if available
+        function loadData() {
+            const savedData = localStorage.getItem('calisthenicsData');
+            if (savedData) {
+                exercisesData = JSON.parse(savedData);
+            }
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('calisthenicsData', JSON.stringify(exercisesData));
+            alert('Data saved successfully!');
+        }
+        
+        // Render exercises table
+        function renderExercisesTable() {
+            const tableBody = document.getElementById('exercises-body');
+            tableBody.innerHTML = '';
+            
+            exercisesData.forEach(exercise => {
+                const row = document.createElement('tr');
+                
+                const progressPercentage = Math.min(100, Math.round((exercise.current / exercise.goal) * 100));
+                const isCompleted = progressPercentage >= 100;
+                
+                row.innerHTML = `
+                    <td>${exercise.name}</td>
+                    <td><span class="difficulty ${exercise.difficulty}">${capitalizeFirstLetter(exercise.difficulty)}</span></td>
+                    <td>${exercise.current} ${getUnitLabel(exercise.unit)}</td>
+                    <td>${exercise.goal} ${getUnitLabel(exercise.unit)}</td>
+                    <td>
+                        <div class="progress-indicator">
+                            <div class="progress-bar ${isCompleted ? 'completed' : ''}" style="width: ${progressPercentage}%"></div>
+                        </div>
+                        <small>${progressPercentage}%</small>
+                    </td>
+                    <td>
+                        <input type="number" id="update-${exercise.id}" min="0" value="${exercise.current}">
+                        <button onclick="updateExercise(${exercise.id})">Update</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Update exercise value
+        function updateExercise(id) {
+            const inputElement = document.getElementById(`update-${id}`);
+            const newValue = parseInt(inputElement.value);
+            
+            if (!isNaN(newValue) && newValue >= 0) {
+                const exerciseIndex = exercisesData.findIndex(ex => ex.id === id);
+                
+                if (exerciseIndex !== -1) {
+                    exercisesData[exerciseIndex].current = newValue;
+                    exercisesData[exerciseIndex].completed = newValue >= exercisesData[exerciseIndex].goal;
+                    
+                    // Add to history
+                    exercisesData[exerciseIndex].history.push({
+                        date: new Date().toISOString().split('T')[0],
+                        value: newValue
+                    });
+                    
+                    renderExercisesTable();
+                    updateCharts();
+                }
+            }
+        }
+        
+        // Filter exercises by difficulty
+        function filterExercises() {
+            const filterValue = document.getElementById('filter-difficulty').value;
+            const tableBody = document.getElementById('exercises-body');
+            const rows = tableBody.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const difficultyCell = rows[i].getElementsByTagName('td')[1];
+                const difficultyText = difficultyCell.textContent.toLowerCase();
+                
+                if (filterValue === 'all' || difficultyText === filterValue) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+        
+        // Sort exercises
+        function sortExercises() {
+            const sortBy = document.getElementById('sort-by').value;
+            
+            exercisesData.sort((a, b) => {
+                if (sortBy === 'name') {
+                    return a.name.localeCompare(b.name);
+                } else if (sortBy === 'difficulty') {
+                    const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3, 'expert': 4 };
+                    return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+                } else if (sortBy === 'progress') {
+                    const progressA = (a.current / a.goal) * 100;
+                    const progressB = (b.current / b.goal) * 100;
+                    return progressB - progressA;
+                }
+                return 0;
+            });
+            
+            renderExercisesTable();
+        }
+        
+        // Initialize and update charts
+        let progressChart;
+        
+        function updateCharts() {
+            const chartType = document.getElementById('chart-type').value;
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            
+            if (progressChart) {
+                progressChart.destroy();
+            }
+            
+            if (chartType === 'progress') {
+                // Overall progress chart
+                const labels = exercisesData.map(ex => ex.name);
+                const data = exercisesData.map(ex => Math.min(100, Math.round((ex.current / ex.goal) * 100)));
+                const colors = exercisesData.map(ex => {
+                    const colorMap = {
+                        'beginner': '#3498db',
+                        'intermediate': '#2ecc71',
+                        'advanced': '#f39c12',
+                        'expert': '#e74c3c'
+                    };
+                    return colorMap[ex.difficulty];
+                });
+                
+                progressChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Progress (%)',
+                            data: data,
+                            backgroundColor: colors,
+                            borderColor: colors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Overall Exercise Progress',
+                                font: { size: 18 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Progress (%)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    autoSkip: false,
+                                    maxRotation: 90,
+                                    minRotation: 45
+                                }
+                            }
+                        }
+                    }
+                });
+            } else if (chartType === 'difficulty') {
+                // Progress by difficulty level
+                const difficultyLevels = ['beginner', 'intermediate', 'advanced', 'expert'];
+                const data = [];
+                
+                for (const level of difficultyLevels) {
+                    const exercisesInLevel = exercisesData.filter(ex => ex.difficulty === level);
+                    if (exercisesInLevel.length > 0) {
+                        const totalProgress = exercisesInLevel.reduce((sum, ex) => {
+                            return sum + Math.min(100, (ex.current / ex.goal) * 100);
+                        }, 0);
+                        const averageProgress = totalProgress / exercisesInLevel.length;
+                        data.push(averageProgress);
+                    } else {
+                        data.push(0);
+                    }
+                }
+                
+                const colorMap = {
+                    'beginner': '#3498db',
+                    'intermediate': '#2ecc71',
+                    'advanced': '#f39c12',
+                    'expert': '#e74c3c'
+                };
+                
+                progressChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: difficultyLevels.map(capitalizeFirstLetter),
+                        datasets: [{
+                            label: 'Average Progress (%)',
+                            data: data,
+                            backgroundColor: difficultyLevels.map(level => colorMap[level]),
+                            borderColor: difficultyLevels.map(level => colorMap[level]),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Average Progress by Difficulty Level',
+                                font: { size: 18 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Average Progress (%)'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else if (chartType === 'history') {
+                // Progress history chart (last 7 days)
+                const today = new Date();
+                const dates = [];
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(today.getDate() - i);
+                    dates.push(date.toISOString().split('T')[0]);
+                }
+                
+                const completedByDate = dates.map(date => {
+                    return exercisesData.filter(ex => {
+                        const historyOnDate = ex.history.find(h => h.date === date);
+                        return historyOnDate && historyOnDate.value >= ex.goal;
+                    }).length;
+                });
+                
+                progressChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Completed Exercises',
+                            data: completedByDate,
+                            backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                            borderColor: 'rgba(46, 204, 113, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Completed Exercises (Last 7 Days)',
+                                font: { size: 18 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Completed Exercises'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Add new exercise
+        function addExercise(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('exercise-name').value;
+            const difficulty = document.getElementById('exercise-difficulty').value;
+            const current = parseInt(document.getElementById('exercise-current').value);
+            const goal = parseInt(document.getElementById('exercise-goal').value);
+            const unit = document.getElementById('exercise-unit').value;
+            
+            const newId = exercisesData.length > 0 ? Math.max(...exercisesData.map(ex => ex.id)) + 1 : 1;
+            
+            const newExercise = {
+                id: newId,
+                name: name,
+                difficulty: difficulty,
+                current: current,
+                goal: goal,
+                unit: unit,
+                history: [{date: new Date().toISOString().split('T')[0], value: current}],
+                completed: current >= goal
+            };
+            
+            exercisesData.push(newExercise);
+            
+            document.getElementById('add-exercise-form').reset();
+            openTab(null, 'exercises');
+            renderExercisesTable();
+            updateCharts();
+        }
+        
+        // Utility functions
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        function getUnitLabel(unit) {
+            switch(unit) {
+                case 'reps': return 'reps';
+                case 'seconds': return 'sec';
+                case 'minutes': return 'min';
+                case 'meters': return 'm';
+                default: return '';
+            }
+        }
+        
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            
+            if (evt) {
+                evt.currentTarget.classList.add('active');
+            } else {
+                // For programmatic tab switching
+                const tabs = document.getElementsByClassName('tab');
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i].innerText.toLowerCase().includes(tabName.toLowerCase())) {
+                        tabs[i].classList.add('active');
+                    }
+                }
+            }
+            
+            if (tabName === 'progress') {
+                updateCharts();
+            }
+        }
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            renderExercisesTable();
+            updateCharts();
+            
+            document.getElementById('save-data').addEventListener('click', saveData);
+            document.getElementById('add-exercise-form').addEventListener('submit', addExercise);
+        });
+    </script>
+</body>
+</html>
