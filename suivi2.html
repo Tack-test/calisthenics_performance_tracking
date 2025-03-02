@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi de Progression Calisthenics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .filter-section, .add-exercise-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .filter-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        .add-exercise-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="text"], input[type="number"], select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 90%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        .edit-btn {
+            background-color: #2196F3;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+        .edit-btn:hover {
+            background-color: #0b7dda;
+        }
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .stats-section {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .chart-container {
+            margin-top: 20px;
+            height: 300px;
+            position: relative;
+        }
+        .export-import {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            table {
+                font-size: 14px;
+            }
+            td, th {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Suivi de Progression Calisthenics</h1>
+        
+        <div class="controls">
+            <div class="filter-section">
+                <h3>Filtres</h3>
+                <div>
+                    <label for="level-filter">Niveau:</label>
+                    <select id="level-filter">
+                        <option value="all">Tous</option>
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Avancé">Avancé</option>
+                        <option value="Expert">Expert</option>
+                    </select>
+                </div>
+                <div style="margin-top: 10px;">
+                    <label for="search">Recherche:</label>
+                    <input type="text" id="search" placeholder="Nom de l'exercice...">
+                </div>
+                <div style="margin-top: 10px;">
+                    <button id="clear-filters">Effacer les filtres</button>
+                </div>
+            </div>
+            
+            <div class="add-exercise-section">
+                <h3>Ajouter/Modifier un exercice</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label for="exercise-name">Exercice:</label>
+                        <input type="text" id="exercise-name" placeholder="Nom de l'exercice">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label for="exercise-level">Niveau:</label>
+                        <select id="exercise-level">
+                            <option value="Débutant">Débutant</option>
+                            <option value="Intermédiaire">Intermédiaire</option>
+                            <option value="Avancé">Avancé</option>
+                            <option value="Expert">Expert</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                    <div style="flex: 1; min-width: 120px;">
+                        <label for="exercise-target">Objectif:</label>
+                        <input type="text" id="exercise-target" placeholder="Ex: 30, 5m, etc.">
+                    </div>
+                    <div style="flex: 1; min-width: 120px;">
+                        <label for="exercise-progress">Progression actuelle:</label>
+                        <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
+                    </div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button id="add-exercise">Ajouter</button>
+                    <button id="update-exercise" style="display:none;">Mettre à jour</button>
+                    <button id="cancel-edit" style="display:none; background-color: #607d8b;">Annuler</button>
+                </div>
+            </div>
+        </div>
+        
+        <table id="exercises-table">
+            <thead>
+                <tr>
+                    <th>Exercice</th>
+                    <th>Niveau</th>
+                    <th>Progression</th>
+                    <th>Objectif</th>
+                    <th>% Complété</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="exercises-body"></tbody>
+        </table>
+        
+        <div class="stats-section">
+            <h3>Statistiques</h3>
+            <div id="stats-summary">
+                <p>Exercices complétés: <span id="completed-count">0</span> / <span id="total-count">0</span></p>
+                <p>Progression moyenne: <span id="average-progress">0</span>%</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="progress-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="export-import">
+            <button id="export-data">Exporter les données</button>
+            <button id="import-data">Importer des données</button>
+            <input type="file" id="import-file" style="display: none;">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Initial data from the provided table
+        const initialData = [
+            { name: "Pull-ups (tractions)", level: "Débutant", progress: "15", target: "30", completed: 50 },
+            { name: "Dips sur banc", level: "Débutant", progress: "18", target: "30", completed: 60 },
+            { name: "Australian pull-ups (tractions horizontales)", level: "Débutant", progress: "", target: "", completed: 0 },
+            { name: "Push-ups (pompes)", level: "Débutant", progress: "13", target: "50", completed: 26 },
+            { name: "Squats poids du corps", level: "Débutant", progress: "30+3*3", target: "50", completed: 75 },
+            { name: "Lunges (fentes) sauté", level: "Débutant", progress: "30s", target: "5m", completed: 10 },
+            { name: "Hollow body hold", level: "Débutant", progress: "50s", target: "5m", completed: 17 },
+            { name: "Superman hold", level: "Débutant", progress: "45s", target: "2m30", completed: 30 },
+            { name: "Planche", level: "Débutant", progress: "1m15s", target: "5m", completed: 25 },
+            { name: "Chin-ups (suppination)", level: "Débutant", progress: "", target: "20", completed: 0 },
+            
+            { name: "Dips sur barres parallèles", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Muscle-up (traction avec passage au-dessus de la barre)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Leg raises (levés de jambes suspendus)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "L-sit (sur barres parallèles ou au sol)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Archer push-ups", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Pistol squat (squat sur une jambe)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Wall handstand (équilibre contre un mur)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Hanging knee raises", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            { name: "Skin the cat", level: "Intermédiaire", progress: "", target: "", completed: 0 },
+            
+            { name: "Handstand (équilibre sur les mains sans mur)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Iron Cross (croix de fer sur anneaux)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Human flag (drapeau humain)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Front lever", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Back lever", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Planche (full planche, straddle planche, tuck planche)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "One-arm pull-up (traction à un bras)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "One-arm push-up (pompe à un bras)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Handstand push-ups (au sol ou sur parallettes)", level: "Avancé", progress: "", target: "", completed: 0 },
+            { name: "Superman push-ups", level: "Avancé", progress: "", target: "", completed: 0 },
+            
+            { name: "Full Maltese", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "Full Victorian", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "One-arm front lever", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "One-arm back lever", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "One-arm muscle-up", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "One-arm handstand", level: "Expert", progress: "", target: "", completed: 0 },
+            { name: "Planche push-ups", level: "Expert", progress: "", target: "", completed: 0 }
+        ];
+
+        // Save exercises data to local storage
+        function saveExercises(exercises) {
+            localStorage.setItem('calisthenics-exercises', JSON.stringify(exercises));
+        }
+
+        // Load exercises data from local storage
+        function loadExercises() {
+            const savedExercises = localStorage.getItem('calisthenics-exercises');
+            return savedExercises ? JSON.parse(savedExercises) : initialData;
+        }
+
+        // Global variables
+        let exercises = loadExercises();
+        let currentEditingIndex = -1;
+        let progressChart = null;
+
+        // DOM elements
+        const exercisesBody = document.getElementById('exercises-body');
+        const levelFilter = document.getElementById('level-filter');
+        const searchInput = document.getElementById('search');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+
+        const exerciseNameInput = document.getElementById('exercise-name');
+        const exerciseLevelInput = document.getElementById('exercise-level');
+        const exerciseTargetInput = document.getElementById('exercise-target');
+        const exerciseProgressInput = document.getElementById('exercise-progress');
+
+        const addExerciseBtn = document.getElementById('add-exercise');
+        const updateExerciseBtn = document.getElementById('update-exercise');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+
+        const exportDataBtn = document.getElementById('export-data');
+        const importDataBtn = document.getElementById('import-data');
+        const importFileInput = document.getElementById('import-file');
+
+        // Calculate completion percentage
+        function calculateCompletion(progress, target) {
+            if (!progress || !target) return 0;
+            
+            // Try to parse time format (e.g., 1m30s)
+            function parseTime(timeStr) {
+                let totalSeconds = 0;
+                const minutesMatch = timeStr.match(/(\d+)m/);
+                const secondsMatch = timeStr.match(/(\d+)s/);
+                
+                if (minutesMatch) totalSeconds += parseInt(minutesMatch[1]) * 60;
+                if (secondsMatch) totalSeconds += parseInt(secondsMatch[1]);
+                
+                return totalSeconds > 0 ? totalSeconds : null;
+            }
+            
+            // Check if both are time formats
+            const progressTime = parseTime(progress);
+            const targetTime = parseTime(target);
+            
+            if (progressTime !== null && targetTime !== null) {
+                return Math.min(100, Math.round((progressTime / targetTime) * 100));
+            }
+            
+            // Check if progress contains repetitions (e.g., 30+3*3)
+            if (progress.includes('+') && !target.includes('+')) {
+                const parts = progress.split('+');
+                let total = parseInt(parts[0]) || 0;
+                
+                // Calculate additional sets (e.g., 3*3 = 9)
+                for (let i = 1; i < parts.length; i++) {
+                    const setParts = parts[i].split('*');
+                    if (setParts.length === 2) {
+                        total += (parseInt(setParts[0]) || 0) * (parseInt(setParts[1]) || 0);
+                    } else {
+                        total += parseInt(parts[i]) || 0;
+                    }
+                }
+                
+                return Math.min(100, Math.round((total / parseInt(target)) * 100));
+            }
+            
+            // Simple numeric comparison
+            const numProgress = parseInt(progress);
+            const numTarget = parseInt(target);
+            
+            if (!isNaN(numProgress) && !isNaN(numTarget) && numTarget > 0) {
+                return Math.min(100, Math.round((numProgress / numTarget) * 100));
+            }
+            
+            return 0;
+        }
+
+        // Render exercises table
+        function renderExercises() {
+            exercisesBody.innerHTML = '';
+            
+            const levelValue = levelFilter.value;
+            const searchValue = searchInput.value.toLowerCase();
+            
+            let filteredExercises = exercises;
+            
+            // Apply level filter
+            if (levelValue !== 'all') {
+                filteredExercises = filteredExercises.filter(ex => ex.level === levelValue);
+            }
+            
+            // Apply search filter
+            if (searchValue) {
+                filteredExercises = filteredExercises.filter(ex => 
+                    ex.name.toLowerCase().includes(searchValue)
+                );
+            }
+            
+            // Create table rows
+            filteredExercises.forEach((exercise, index) => {
+                const row = document.createElement('tr');
+                
+                // Calculate completion
+                exercise.completed = calculateCompletion(exercise.progress, exercise.target);
+                
+                // Status color based on completion percentage
+                let statusColor = '#f44336'; // red
+                if (exercise.completed >= 100) {
+                    statusColor = '#4CAF50'; // green
+                } else if (exercise.completed >= 75) {
+                    statusColor = '#8BC34A'; // light green
+                } else if (exercise.completed >= 50) {
+                    statusColor = '#FFC107'; // amber
+                } else if (exercise.completed >= 25) {
+                    statusColor = '#FF9800'; // orange
+                }
+                
+                row.innerHTML = `
+                    <td>${exercise.name}</td>
+                    <td>${exercise.level}</td>
+                    <td>${exercise.progress}</td>
+                    <td>${exercise.target}</td>
+                    <td>
+                        <div class="status-indicator" style="background-color: ${statusColor}"></div>
+                        ${exercise.completed}%
+                    </td>
+                    <td>
+                        <button class="edit-btn" data-index="${exercises.indexOf(exercise)}">Modifier</button>
+                        <button class="delete-btn" data-index="${exercises.indexOf(exercise)}">Supprimer</button>
+                    </td>
+                `;
+                
+                exercisesBody.appendChild(row);
+            });
+            
+            // Update event listeners for edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', handleEditExercise);
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', handleDeleteExercise);
+            });
+            
+            // Save updated exercises data
+            saveExercises(exercises);
+            
+            // Update statistics
+            updateStatistics();
+        }
+
+        // Handle edit exercise
+        function handleEditExercise(e) {
+            const index = parseInt(e.target.dataset.index);
+            currentEditingIndex = index;
+            
+            const exercise = exercises[index];
+            
+            // Fill the form with exercise data
+            exerciseNameInput.value = exercise.name;
+            exerciseLevelInput.value = exercise.level;
+            exerciseTargetInput.value = exercise.target;
+            exerciseProgressInput.value = exercise.progress;
+            
+            // Show update and cancel buttons, hide add button
+            addExerciseBtn.style.display = 'none';
+            updateExerciseBtn.style.display = 'inline-block';
+            cancelEditBtn.style.display = 'inline-block';
+            
+            // Scroll to form
+            document.querySelector('.add-exercise-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Handle delete exercise
+        function handleDeleteExercise(e) {
+            const index = parseInt(e.target.dataset.index);
+            
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'exercice "${exercises[index].name}" ?`)) {
+                exercises.splice(index, 1);
+                renderExercises();
+            }
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            currentEditingIndex = -1;
+            
+            // Clear form
+            exerciseNameInput.value = '';
+            exerciseTargetInput.value = '';
+            exerciseProgressInput.value = '';
+            
+            // Show add button, hide update and cancel buttons
+            addExerciseBtn.style.display = 'inline-block';
+            updateExerciseBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+        }
+
+        // Add new exercise
+        function addExercise() {
+            const name = exerciseNameInput.value.trim();
+            const level = exerciseLevelInput.value;
+            const target = exerciseTargetInput.value.trim();
+            const progress = exerciseProgressInput.value.trim();
+            
+            if (!name) {
+                alert('Veuillez entrer un nom d\'exercice.');
+                return;
+            }
+            
+            const newExercise = {
+                name,
+                level,
+                target,
+                progress,
+                completed: calculateCompletion(progress, target)
+            };
+            
+            exercises.push(newExercise);
+            
+            // Clear form
+            exerciseNameInput.value = '';
+            exerciseTargetInput.value = '';
+            exerciseProgressInput.value = '';
+            
+            renderExercises();
+        }
+
+        // Update existing exercise
+        function updateExercise() {
+            if (currentEditingIndex < 0) return;
+            
+            const name = exerciseNameInput.value.trim();
+            const level = exerciseLevelInput.value;
+            const target = exerciseTargetInput.value.trim();
+            const progress = exerciseProgressInput.value.trim();
+            
+            if (!name) {
+                alert('Veuillez entrer un nom d\'exercice.');
+                return;
+            }
+            
+            exercises[currentEditingIndex] = {
+                name,
+                level,
+                target,
+                progress,
+                completed: calculateCompletion(progress, target)
+            };
+            
+            cancelEdit();
+            renderExercises();
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalCount = exercises.length;
+            const completedCount = exercises.filter(ex => ex.completed >= 100).length;
+            const averageProgress = exercises.length > 0 
+                ? Math.round(exercises.reduce((sum, ex) => sum + ex.completed, 0) / exercises.length) 
+                : 0;
+            
+            document.getElementById('total-count').textContent = totalCount;
+            document.getElementById('completed-count').textContent = completedCount;
+            document.getElementById('average-progress').textContent = averageProgress;
+            
+            updateChart();
+        }
+
+        // Update chart
+        function updateChart() {
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            
+            // Prepare data for chart by level
+            const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
+            const levelCounts = levels.map(level => exercises.filter(ex => ex.level === level).length);
+            const levelCompleted = levels.map(level => 
+                exercises
+                    .filter(ex => ex.level === level)
+                    .filter(ex => ex.completed >= 100)
+                    .length
+            );
+            const levelProgress = levels.map(level => {
+                const levelExercises = exercises.filter(ex => ex.level === level);
+                return levelExercises.length > 0 
+                    ? Math.round(levelExercises.reduce((sum, ex) => sum + ex.completed, 0) / levelExercises.length) 
+                    : 0;
+            });
+            
+            // Destroy previous chart if exists
+            if (progressChart) {
+                progressChart.destroy();
+            }
+            
+            // Create new chart
+            progressChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: levels,
+                    datasets: [
+                        {
+                            label: 'Nombre d\'exercices',
+                            data: levelCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Exercices complétés',
+                            data: levelCompleted,
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Progression moyenne (%)',
+                            data: levelProgress,
+                            backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Export data
+        function exportData() {
+            const dataStr = JSON.stringify(exercises, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportLink = document.createElement('a');
+            exportLink.setAttribute('href', dataUri);
+            exportLink.setAttribute('download', 'calisthenics-progress.json');
+            document.body.appendChild(exportLink);
+            exportLink.click();
+            document.body.removeChild(exportLink);
+        }
+
+        // Import data
+        function importData() {
+            importFileInput.click();
+        }
+
+        // Handle file import
+        function handleFileImport(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (Array.isArray(importedData)) {
+                        exercises = importedData;
+                        saveExercises(exercises);
+                        renderExercises();
+                        alert('Données importées avec succès!');
+                    } else {
+                        throw new Error('Format invalide');
+                    }
+                } catch (error) {
+                    alert('Erreur lors de l\'importation: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Event listeners
+        levelFilter.addEventListener('change', renderExercises);
+        searchInput.addEventListener('input', renderExercises);
+        clearFiltersBtn.addEventListener('click', () => {
+            levelFilter.value = 'all';
+            searchInput.value = '';
+            renderExercises();
+        });
+
+        addExerciseBtn.addEventListener('click', addExercise);
+        updateExerciseBtn.addEventListener('click', updateExercise);
+        cancelEditBtn.addEventListener('click', cancelEdit);
+
+        exportDataBtn.addEventListener('click', exportData);
+        importDataBtn.addEventListener('click', importData);
+        importFileInput.addEventListener('change', handleFileImport);
+
+        // Initialize
+        renderExercises();
+    </script>
+</body>
+</html>
