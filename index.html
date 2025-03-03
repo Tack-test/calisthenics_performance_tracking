@@ -3,198 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi de Progression Calisthenics | Fitness Tracking | Street Workout</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Application de suivi de progression pour les exercices de calisthenics. Suivez vos performances, fixez des objectifs et visualisez votre progression dans le street workout.">
-    <meta name="keywords" content="calisthenics, musculation au poids du corps, suivi de progression, street workout, fitness, entraînement progressif, pull-ups, dips, muscle-ups, handstand, force, équilibre">
-    <meta name="author" content="Calisthenics Tracker">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="French">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.votredomaine.com/calisthenics-tracker">
-    
-    <!-- Favicon -->
+    <title>Suivi Calisthenics</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2548/2548537.png">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2548/2548537.png">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.votredomaine.com/calisthenics-tracker">
-    <meta property="og:title" content="Suivi de Progression Calisthenics | Tracker d'Exercices">
-    <meta property="og:description" content="Application de suivi de progression pour les exercices de calisthenics. Suivez vos performances et visualisez votre progression.">
-    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2548/2548537.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.votredomaine.com/calisthenics-tracker">
-    <meta property="twitter:title" content="Suivi de Progression Calisthenics | Tracker d'Exercices">
-    <meta property="twitter:description" content="Application de suivi de progression pour les exercices de calisthenics. Suivez vos performances et visualisez votre progression.">
-    <meta property="twitter:image" content="https://cdn-icons-png.flaticon.com/512/2548/2548537.png">
-    
-    <!-- Schema.org markup for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SportsApplication",
-      "name": "Suivi de Progression Calisthenics",
-      "description": "Application de suivi de progression pour les exercices de calisthenics et street workout",
-      "applicationCategory": "FitnessApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      }
-    }
-    </script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+        :root {
+            /* Light mode colors */
+            --primary: #3a86ff;
+            --primary-dark: #2667cc;
+            --secondary: #8338ec;
+            --accent: #ff006e;
+            --success: #38b000;
+            --warning: #ffbe0b;
+            --danger: #ff5252;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text: #212529;
+            --text-secondary: #6c757d;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --chart-grid: #e9ecef;
         }
+
+        [data-theme="dark"] {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #fca311;
+            --danger: #e63946;
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border: #343a40;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --chart-grid: #2a2a2a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .controls {
+
+        header {
+            background-color: var(--surface);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--border);
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card h3 i {
+            margin-right: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], 
+        input[type="number"], 
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: var(--surface);
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus, 
+        input[type="number"]:focus, 
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.25);
+            outline: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button i {
+            margin-right: 6px;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #2d9300;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #e03c3c;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #6a2ec4;
+        }
+
+        .btn-neutral {
+            background-color: var(--text-secondary);
+        }
+
+        .btn-neutral:hover {
+            background-color: #5a6268;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--surface);
+            color: var(--primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(58, 134, 255, 0.05);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+
+        .progress-beginner {
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+        }
+
+        .progress-intermediate {
+            background: linear-gradient(90deg, #4361ee, #7209b7);
+        }
+
+        .progress-advanced {
+            background: linear-gradient(90deg, #7209b7, #f72585);
+        }
+
+        .progress-expert {
+            background: linear-gradient(90deg, #f72585, #ff9e00);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .level-beginner {
+            background-color: #4cc9f0;
+        }
+
+        .level-intermediate {
+            background-color: #4361ee;
+        }
+
+        .level-advanced {
+            background-color: #7209b7;
+        }
+
+        .level-expert {
+            background-color: #f72585;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .edit-btn {
+            background-color: var(--primary);
+        }
+
+        .delete-btn {
+            background-color: var(--danger);
+        }
+
+        .action-btn.video-btn {
+            background-color: var(--accent);
+        }
+
+        .action-btn.video-btn:hover {
+            background-color: #d80058;
+        }
+
+        .video-icon {
+            margin-left: 8px;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .video-icon:hover {
+            transform: scale(1.2);
+            color: #d80058;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-container {
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+            height: 400px;
+            position: relative;
+        }
+
+        .export-import {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .file-label:hover {
+            background-color: #6a2ec4;
+        }
+
+        .file-label:active {
+            transform: scale(0.98);
+        }
+
+        .file-label i {
+            margin-right: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* Video Modal Styles */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .video-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+
+        .video-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.2s;
+        }
+
+        .video-close:hover {
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        /* Workout Creation Styles */
+        .workout-section {
+            margin-top: 30px;
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .workout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .workout-title {
+            font-size: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .workout-builder {
+            background-color: var(--background);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            border: 2px dashed var(--border);
+        }
+
+        .workout-builder.active {
+            border: 2px solid var(--accent);
+        }
+
+        .workout-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--surface);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px var(--shadow);
+            cursor: move;
+            transition: all 0.2s;
+        }
+
+        .workout-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .workout-item.dragging {
+            opacity: 0.5;
+        }
+
+        .workout-item-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .workout-item-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .workout-item-level {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .workout-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .workout-item-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .workout-item-actions button:hover {
+            color: var(--accent);
+        }
+
+        .workout-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
             flex-wrap: wrap;
             gap: 10px;
         }
-        .filter-section, .add-exercise-section {
-            background-color: #f9f9f9;
-            padding: 15px;
+
+        .workout-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--background);
             border-radius: 6px;
-            border: 1px solid #ddd;
         }
-        .filter-section {
-            flex: 1;
-            min-width: 200px;
+
+        .workout-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-        .add-exercise-section {
-            flex: 1;
-            min-width: 300px;
+
+        .workout-meta-item i {
+            color: var(--accent);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-            position: sticky;
-            top: 0;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        input[type="text"], input[type="number"], select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 90%;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .delete-btn {
-            background-color: #f44336;
-            padding: 6px 10px;
-            font-size: 12px;
-        }
-        .delete-btn:hover {
-            background-color: #d32f2f;
-        }
-        .edit-btn {
-            background-color: #2196F3;
-            padding: 6px 10px;
-            font-size: 12px;
-        }
-        .edit-btn:hover {
-            background-color: #0b7dda;
-        }
-        .status-indicator {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .stats-section {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-        .chart-container {
-            margin-top: 20px;
-            height: 300px;
-            position: relative;
-        }
-        .export-import {
-            margin-top: 20px;
+
+        .workout-save-form {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
+            align-items: center;
         }
+
+        .workout-save-form input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--input-bg);
+            color: var(--text);
+        }
+
+        .exercise-checkbox {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
         @media (max-width: 768px) {
-            .controls {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .theme-toggle {
+                align-self: flex-end;
+            }
+            
+            th, td {
+                padding: 12px 10px;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
             }
-            table {
-                font-size: 14px;
+            
+            .stat-value {
+                font-size: 2rem;
             }
-            td, th {
-                padding: 8px;
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .video-container {
+                width: 95%;
+            }
+            
+            .video-container iframe {
+                height: 250px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Suivi de Progression Calisthenics</h1>
+        <header>
+            <h1><i class="fas fa-dumbbell"></i> Suivi Calisthenics</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
         
         <div class="controls">
-            <div class="filter-section">
-                <h3>Filtres</h3>
-                <div>
+            <div class="card">
+                <h3><i class="fas fa-filter"></i> Filtres</h3>
+                <div class="form-group">
                     <label for="level-filter">Niveau:</label>
                     <select id="level-filter">
                         <option value="all">Tous</option>
@@ -204,274 +741,388 @@
                         <option value="Expert">Expert</option>
                     </select>
                 </div>
-                <div style="margin-top: 10px;">
+                <div class="form-group">
                     <label for="search">Recherche:</label>
                     <input type="text" id="search" placeholder="Nom de l'exercice...">
                 </div>
-                <div style="margin-top: 10px;">
-                    <button id="clear-filters">Effacer les filtres</button>
-                </div>
+                <button id="clear-filters" class="btn-neutral"><i class="fas fa-broom"></i> Effacer les filtres</button>
             </div>
             
-            <div class="add-exercise-section">
-                <h3>Ajouter/Modifier un exercice</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                    <div style="flex: 1; min-width: 200px;">
-                        <label for="exercise-name">Exercice:</label>
-                        <input type="text" id="exercise-name" placeholder="Nom de l'exercice">
-                    </div>
-                    <div style="flex: 1; min-width: 150px;">
-                        <label for="exercise-level">Niveau:</label>
-                        <select id="exercise-level">
-                            <option value="Débutant">Débutant</option>
-                            <option value="Intermédiaire">Intermédiaire</option>
-                            <option value="Avancé">Avancé</option>
-                            <option value="Expert">Expert</option>
-                        </select>
-                    </div>
+            <div class="card">
+                <h3><i class="fas fa-plus-circle"></i> Ajouter un exercice</h3>
+                <div class="form-group">
+                    <label for="exercise-name">Exercice:</label>
+                    <input type="text" id="exercise-name" placeholder="Nom de l'exercice">
                 </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                    <div style="flex: 1; min-width: 120px;">
-                        <label for="exercise-target">Objectif:</label>
-                        <input type="text" id="exercise-target" placeholder="Ex: 30, 5m, etc.">
-                    </div>
-                    <div style="flex: 1; min-width: 120px;">
-                        <label for="exercise-progress">Progression actuelle:</label>
-                        <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
-                    </div>
+                <div class="form-group">
+                    <label for="exercise-level">Niveau:</label>
+                    <select id="exercise-level">
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Avancé">Avancé</option>
+                        <option value="Expert">Expert</option>
+                    </select>
                 </div>
-                <div style="margin-top: 10px;">
-                    <button id="add-exercise">Ajouter</button>
-                    <button id="update-exercise" style="display:none;">Mettre à jour</button>
-                    <button id="cancel-edit" style="display:none; background-color: #607d8b;">Annuler</button>
+                <div class="form-group">
+                    <label for="exercise-target">Objectif:</label>
+                    <input type="text" id="exercise-target" placeholder="Ex: 30, 5m, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="exercise-progress">Progression actuelle:</label>
+                    <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="exercise-video">URL Vidéo (optionnel):</label>
+                    <input type="text" id="exercise-video" placeholder="URL YouTube ou autre vidéo">
+                </div>
+                <div class="button-group">
+                    <button id="add-exercise" class="btn-success"><i class="fas fa-plus"></i> Ajouter</button>
+                    <button id="update-exercise" style="display:none;"><i class="fas fa-save"></i> Mettre à jour</button>
+                    <button id="cancel-edit" style="display:none;" class="btn-neutral"><i class="fas fa-times"></i> Annuler</button>
                 </div>
             </div>
         </div>
         
-        <table id="exercises-table">
-            <thead>
-                <tr>
-                    <th>Exercice</th>
-                    <th>Niveau</th>
-                    <th>Progression</th>
-                    <th>Objectif</th>
-                    <th>% Complété</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="exercises-body"></tbody>
-        </table>
+        <div class="table-container">
+            <table id="exercises-table">
+                <thead>
+                    <tr>
+                        <th>Exercice</th>
+                        <th>Niveau</th>
+                        <th>Progression</th>
+                        <th>Objectif</th>
+                        <th>Complété</th>
+                        <th>Vidéo</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="exercises-body">
+                    <!-- Exercises will be rendered here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
         
         <div class="stats-section">
-            <h3>Statistiques</h3>
-            <div id="stats-summary">
-                <p>Exercices complétés: <span id="completed-count">0</span> / <span id="total-count">0</span></p>
-                <p>Progression moyenne: <span id="average-progress">0</span>%</p>
+            <div class="stat-card">
+                <div class="stat-label">Exercices Total</div>
+                <div id="total-exercises" class="stat-value">0</div>
             </div>
-            <div class="chart-container">
-                <canvas id="progress-chart"></canvas>
+            <div class="stat-card">
+                <div class="stat-label">Progression Moyenne</div>
+                <div id="average-completion" class="stat-value">0%</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-label">Exercices Complétés</div>
+                <div id="completed-exercises" class="stat-value">0</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="progress-chart"></canvas>
         </div>
         
         <div class="export-import">
-            <button id="export-data">Exporter les données</button>
-            <button id="import-data">Importer des données</button>
-            <input type="file" id="import-file" style="display: none;">
+            <button id="export-btn" class="btn-secondary"><i class="fas fa-download"></i> Exporter les données</button>
+            <label for="import-file" class="file-label">
+                <i class="fas fa-upload"></i> Importer des données
+            </label>
+            <input type="file" id="import-file" class="file-input" accept=".json">
+        </div>
+
+        <!-- Workout Creation Section -->
+        <section class="workout-section">
+            <div class="workout-header">
+                <h2 class="workout-title"><i class="fas fa-dumbbell"></i> Créer un Entraînement</h2>
+                <button id="toggle-workout-mode" class="btn-primary"><i class="fas fa-play"></i> Mode Entraînement</button>
+            </div>
+            
+            <p>Sélectionnez des exercices dans le tableau ci-dessus pour les ajouter à votre entraînement.</p>
+            
+            <div id="workout-builder" class="workout-builder">
+                <div id="workout-items"></div>
+                
+                <div id="workout-empty-state" class="text-center" style="padding: 20px; color: var(--text-secondary);">
+                    <i class="fas fa-plus-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Cochez les exercices dans le tableau pour les ajouter à votre entraînement</p>
+                </div>
+            </div>
+            
+            <div class="workout-meta">
+                <div class="workout-meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Durée estimée: <span id="workout-duration">0 min</span></span>
+                </div>
+                <div class="workout-meta-item">
+                    <i class="fas fa-list-ol"></i>
+                    <span>Nombre d'exercices: <span id="workout-exercise-count">0</span></span>
+                </div>
+            </div>
+            
+            <div class="workout-controls">
+                <div>
+                    <button id="clear-workout" class="btn-secondary"><i class="fas fa-trash-alt"></i> Vider</button>
+                </div>
+                <div class="workout-save-form">
+                    <input type="text" id="workout-name" placeholder="Nom de l'entraînement" class="form-input">
+                    <button id="save-workout" class="btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                </div>
+            </div>
+            
+            <div id="saved-workouts" class="workout-list">
+                <h3 style="margin-top: 20px; margin-bottom: 15px;">Entraînements Enregistrés</h3>
+                <div id="saved-workouts-list"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="video-modal">
+        <div class="video-container">
+            <button id="video-close" class="video-close"><i class="fas fa-times"></i></button>
+            <div id="video-embed"></div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <!-- Workout Mode -->
+    <div id="workout-mode" class="workout-mode">
+        <div class="workout-mode-header">
+            <h2 class="workout-mode-title"><i class="fas fa-dumbbell"></i> <span id="workout-mode-title-text">Entraînement</span></h2>
+            <button id="workout-mode-close" class="workout-mode-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="workout-mode-content">
+            <div id="current-exercise" class="workout-exercise"></div>
+            
+            <div class="workout-navigation">
+                <button id="prev-exercise" class="btn-secondary"><i class="fas fa-arrow-left"></i> Précédent</button>
+                <button id="next-exercise" class="btn-primary">Suivant <i class="fas fa-arrow-right"></i></button>
+            </div>
+            
+            <div class="workout-progress">
+                <div class="workout-progress-bar">
+                    <div id="workout-progress-fill" class="workout-progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="workout-timer" id="workout-timer">00:00</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initial data from the provided table
+        // DOM Elements
+        const levelFilter = document.getElementById('level-filter');
+        const searchInput = document.getElementById('search');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        const exerciseNameInput = document.getElementById('exercise-name');
+        const exerciseLevelInput = document.getElementById('exercise-level');
+        const exerciseTargetInput = document.getElementById('exercise-target');
+        const exerciseProgressInput = document.getElementById('exercise-progress');
+        const exerciseVideoInput = document.getElementById('exercise-video');
+        const addExerciseBtn = document.getElementById('add-exercise');
+        const updateExerciseBtn = document.getElementById('update-exercise');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+        const exercisesTable = document.getElementById('exercises-table');
+        const exercisesBody = document.getElementById('exercises-body');
+        const totalExercisesEl = document.getElementById('total-exercises');
+        const averageCompletionEl = document.getElementById('average-completion');
+        const completedExercisesEl = document.getElementById('completed-exercises');
+        const exportBtn = document.getElementById('export-btn');
+        const importFileInput = document.getElementById('import-file');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const videoModal = document.getElementById('video-modal');
+        const videoEmbed = document.getElementById('video-embed');
+        const videoCloseBtn = document.getElementById('video-close');
+
+        // Initial data
         const initialData = [
-            { name: "Pull-ups (tractions)", level: "Débutant", progress: "15", target: "30", completed: 50 },
-            { name: "Dips sur banc", level: "Débutant", progress: "18", target: "30", completed: 60 },
-            { name: "Australian pull-ups (tractions horizontales)", level: "Débutant", progress: "", target: "", completed: 0 },
-            { name: "Push-ups (pompes)", level: "Débutant", progress: "13", target: "50", completed: 26 },
-            { name: "Squats poids du corps", level: "Débutant", progress: "30+3*3", target: "50", completed: 75 },
-            { name: "Lunges (fentes) sauté", level: "Débutant", progress: "30s", target: "5m", completed: 10 },
-            { name: "Hollow body hold", level: "Débutant", progress: "50s", target: "5m", completed: 17 },
-            { name: "Superman hold", level: "Débutant", progress: "45s", target: "2m30", completed: 30 },
-            { name: "Planche", level: "Débutant", progress: "1m15s", target: "5m", completed: 25 },
-            { name: "Chin-ups (suppination)", level: "Débutant", progress: "", target: "20", completed: 0 },
-            
-            { name: "Dips sur barres parallèles", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Muscle-up (traction avec passage au-dessus de la barre)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Leg raises (levés de jambes suspendus)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "L-sit (sur barres parallèles ou au sol)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Archer push-ups", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Pistol squat (squat sur une jambe)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Wall handstand (équilibre contre un mur)", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Hanging knee raises", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            { name: "Skin the cat", level: "Intermédiaire", progress: "", target: "", completed: 0 },
-            
-            { name: "Handstand (équilibre sur les mains sans mur)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Iron Cross (croix de fer sur anneaux)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Human flag (drapeau humain)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Front lever", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Back lever", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Planche (full planche, straddle planche, tuck planche)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "One-arm pull-up (traction à un bras)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "One-arm push-up (pompe à un bras)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Handstand push-ups (au sol ou sur parallettes)", level: "Avancé", progress: "", target: "", completed: 0 },
-            { name: "Superman push-ups", level: "Avancé", progress: "", target: "", completed: 0 },
-            
-            { name: "Full Maltese", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "Full Victorian", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "One-arm front lever", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "One-arm back lever", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "One-arm muscle-up", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "One-arm handstand", level: "Expert", progress: "", target: "", completed: 0 },
-            { name: "Planche push-ups", level: "Expert", progress: "", target: "", completed: 0 }
+            { name: "Pull-ups (tractions)", level: "Débutant", progress: "15", target: "30", completed: 50, video: "" },
+            { name: "Dips sur banc", level: "Débutant", progress: "18", target: "30", completed: 60, video: "" },
+            { name: "Squats", level: "Débutant", progress: "25", target: "50", completed: 50, video: "" },
+            { name: "Mountain Climbers", level: "Débutant", progress: "20", target: "30", completed: 67, video: "" },
+            { name: "Pompes", level: "Débutant", progress: "15", target: "25", completed: 60, video: "" },
+            { name: "Dips", level: "Intermédiaire", progress: "8", target: "15", completed: 53, video: "" },
+            { name: "Pull-ups L-sit", level: "Intermédiaire", progress: "5", target: "12", completed: 42, video: "" },
+            { name: "Pistol Squats", level: "Intermédiaire", progress: "6", target: "10", completed: 60, video: "" },
+            { name: "Pompes Archer", level: "Intermédiaire", progress: "8", target: "20", completed: 40, video: "" },
+            { name: "Muscle-up", level: "Avancé", progress: "3", target: "10", completed: 30, video: "" },
+            { name: "Handstand Push-ups", level: "Avancé", progress: "2", target: "8", completed: 25, video: "" },
+            { name: "Front Lever", level: "Avancé", progress: "5s", target: "30s", completed: 17, video: "" },
+            { name: "Back Lever", level: "Avancé", progress: "8s", target: "30s", completed: 27, video: "" },
+            { name: "Planche", level: "Expert", progress: "2s", target: "20s", completed: 10, video: "" },
+            { name: "One Arm Pull-up", level: "Expert", progress: "0", target: "5", completed: 0, video: "" },
+            { name: "Human Flag", level: "Expert", progress: "1s", target: "15s", completed: 7, video: "" }
         ];
-
-        // Save exercises data to local storage
-        function saveExercises(exercises) {
-            localStorage.setItem('calisthenics-exercises', JSON.stringify(exercises));
-        }
-
-        // Load exercises data from local storage
-        function loadExercises() {
-            const savedExercises = localStorage.getItem('calisthenics-exercises');
-            return savedExercises ? JSON.parse(savedExercises) : initialData;
-        }
 
         // Global variables
         let exercises = loadExercises();
         let currentEditingIndex = -1;
         let progressChart = null;
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
 
-        // DOM elements
-        const exercisesBody = document.getElementById('exercises-body');
-        const levelFilter = document.getElementById('level-filter');
-        const searchInput = document.getElementById('search');
-        const clearFiltersBtn = document.getElementById('clear-filters');
+        // Initialize dark mode
+        if (isDarkMode) {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
 
-        const exerciseNameInput = document.getElementById('exercise-name');
-        const exerciseLevelInput = document.getElementById('exercise-level');
-        const exerciseTargetInput = document.getElementById('exercise-target');
-        const exerciseProgressInput = document.getElementById('exercise-progress');
+        // Helper Functions
+        function saveExercises(exercises) {
+            localStorage.setItem('calisthenics-exercises', JSON.stringify(exercises));
+        }
 
-        const addExerciseBtn = document.getElementById('add-exercise');
-        const updateExerciseBtn = document.getElementById('update-exercise');
-        const cancelEditBtn = document.getElementById('cancel-edit');
+        function loadExercises() {
+            const saved = localStorage.getItem('calisthenics-exercises');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return initialData;
+        }
 
-        const exportDataBtn = document.getElementById('export-data');
-        const importDataBtn = document.getElementById('import-data');
-        const importFileInput = document.getElementById('import-file');
-
-        // Calculate completion percentage
         function calculateCompletion(progress, target) {
-            if (!progress || !target) return 0;
-            
-            // Try to parse time format (e.g., 1m30s)
-            function parseTime(timeStr) {
-                let totalSeconds = 0;
-                const minutesMatch = timeStr.match(/(\d+)m/);
-                const secondsMatch = timeStr.match(/(\d+)s/);
+            // Handle time format (e.g., "5s", "2m30s")
+            if (typeof progress === 'string' && typeof target === 'string') {
+                // Check if both values contain time units
+                const progressHasTimeUnit = /[smh]/.test(progress);
+                const targetHasTimeUnit = /[smh]/.test(target);
                 
-                if (minutesMatch) totalSeconds += parseInt(minutesMatch[1]) * 60;
-                if (secondsMatch) totalSeconds += parseInt(secondsMatch[1]);
-                
-                return totalSeconds > 0 ? totalSeconds : null;
-            }
-            
-            // Check if both are time formats
-            const progressTime = parseTime(progress);
-            const targetTime = parseTime(target);
-            
-            if (progressTime !== null && targetTime !== null) {
-                return Math.min(100, Math.round((progressTime / targetTime) * 100));
-            }
-            
-            // Check if progress contains repetitions (e.g., 30+3*3)
-            if (progress.includes('+') && !target.includes('+')) {
-                const parts = progress.split('+');
-                let total = parseInt(parts[0]) || 0;
-                
-                // Calculate additional sets (e.g., 3*3 = 9)
-                for (let i = 1; i < parts.length; i++) {
-                    const setParts = parts[i].split('*');
-                    if (setParts.length === 2) {
-                        total += (parseInt(setParts[0]) || 0) * (parseInt(setParts[1]) || 0);
-                    } else {
-                        total += parseInt(parts[i]) || 0;
+                if (progressHasTimeUnit && targetHasTimeUnit) {
+                    // Convert to seconds
+                    const progressSeconds = convertToSeconds(progress);
+                    const targetSeconds = convertToSeconds(target);
+                    
+                    if (progressSeconds !== null && targetSeconds !== null && targetSeconds > 0) {
+                        return Math.min(Math.round((progressSeconds / targetSeconds) * 100), 100);
                     }
                 }
-                
-                return Math.min(100, Math.round((total / parseInt(target)) * 100));
             }
             
-            // Simple numeric comparison
-            const numProgress = parseInt(progress);
-            const numTarget = parseInt(target);
+            // Handle numeric values
+            const progressNum = parseFloat(progress);
+            const targetNum = parseFloat(target);
             
-            if (!isNaN(numProgress) && !isNaN(numTarget) && numTarget > 0) {
-                return Math.min(100, Math.round((numProgress / numTarget) * 100));
+            if (!isNaN(progressNum) && !isNaN(targetNum) && targetNum > 0) {
+                return Math.min(Math.round((progressNum / targetNum) * 100), 100);
             }
             
             return 0;
         }
 
-        // Render exercises table
+        function convertToSeconds(timeStr) {
+            // Remove all spaces
+            timeStr = timeStr.replace(/\s+/g, '');
+            
+            // Initialize seconds
+            let seconds = 0;
+            
+            // Check for hours (e.g., "2h")
+            const hoursMatch = timeStr.match(/(\d+)h/);
+            if (hoursMatch) {
+                seconds += parseInt(hoursMatch[1]) * 3600;
+            }
+            
+            // Check for minutes (e.g., "5m")
+            const minutesMatch = timeStr.match(/(\d+)m/);
+            if (minutesMatch) {
+                seconds += parseInt(minutesMatch[1]) * 60;
+            }
+            
+            // Check for seconds (e.g., "30s")
+            const secondsMatch = timeStr.match(/(\d+)s/);
+            if (secondsMatch) {
+                seconds += parseInt(secondsMatch[1]);
+            }
+            
+            // If no units were found but there's a number, assume it's seconds
+            if (seconds === 0 && /^\d+$/.test(timeStr)) {
+                seconds = parseInt(timeStr);
+            }
+            
+            return seconds;
+        }
+
+        function getLevelClass(level) {
+            switch(level) {
+                case 'Débutant': return 'beginner';
+                case 'Intermédiaire': return 'intermediate';
+                case 'Avancé': return 'advanced';
+                case 'Expert': return 'expert';
+                default: return 'beginner';
+            }
+        }
+
         function renderExercises() {
+            // Clear the table body
             exercisesBody.innerHTML = '';
             
-            const levelValue = levelFilter.value;
+            // Get filter values
+            const levelFilterValue = levelFilter.value;
             const searchValue = searchInput.value.toLowerCase();
             
-            let filteredExercises = exercises;
+            // Filter exercises
+            const filteredExercises = exercises.filter(exercise => {
+                const levelMatch = levelFilterValue === 'all' || exercise.level === levelFilterValue;
+                const searchMatch = exercise.name.toLowerCase().includes(searchValue);
+                return levelMatch && searchMatch;
+            });
             
-            // Apply level filter
-            if (levelValue !== 'all') {
-                filteredExercises = filteredExercises.filter(ex => ex.level === levelValue);
-            }
-            
-            // Apply search filter
-            if (searchValue) {
-                filteredExercises = filteredExercises.filter(ex => 
-                    ex.name.toLowerCase().includes(searchValue)
-                );
-            }
-            
-            // Create table rows
-            filteredExercises.forEach((exercise, index) => {
-                const row = document.createElement('tr');
+            // Sort exercises by level and then by name
+            const sortedExercises = [...filteredExercises].sort((a, b) => {
+                const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
+                const levelA = levels.indexOf(a.level);
+                const levelB = levels.indexOf(b.level);
                 
-                // Calculate completion
-                exercise.completed = calculateCompletion(exercise.progress, exercise.target);
-                
-                // Status color based on completion percentage
-                let statusColor = '#f44336'; // red
-                if (exercise.completed >= 100) {
-                    statusColor = '#4CAF50'; // green
-                } else if (exercise.completed >= 75) {
-                    statusColor = '#8BC34A'; // light green
-                } else if (exercise.completed >= 50) {
-                    statusColor = '#FFC107'; // amber
-                } else if (exercise.completed >= 25) {
-                    statusColor = '#FF9800'; // orange
+                if (levelA !== levelB) {
+                    return levelA - levelB;
                 }
                 
-                row.innerHTML = `
+                return a.name.localeCompare(b.name);
+            });
+            
+            // Render each exercise
+            sortedExercises.forEach((exercise, index) => {
+                const tr = document.createElement('tr');
+                tr.classList.add('fade-in');
+                tr.style.animationDelay = `${index * 0.05}s`;
+                
+                const levelClass = getLevelClass(exercise.level);
+                const completed = calculateCompletion(exercise.progress, exercise.target);
+                
+                tr.innerHTML = `
                     <td>${exercise.name}</td>
-                    <td>${exercise.level}</td>
+                    <td>
+                        <span class="level-badge level-${levelClass}">${exercise.level}</span>
+                    </td>
                     <td>${exercise.progress}</td>
                     <td>${exercise.target}</td>
                     <td>
-                        <div class="status-indicator" style="background-color: ${statusColor}"></div>
-                        ${exercise.completed}%
+                        <div class="progress-container">
+                            <div class="progress-bar progress-${levelClass}" style="width: ${completed}%"></div>
+                        </div>
+                        <span>${completed}%</span>
                     </td>
                     <td>
-                        <button class="edit-btn" data-index="${exercises.indexOf(exercise)}">Modifier</button>
-                        <button class="delete-btn" data-index="${exercises.indexOf(exercise)}">Supprimer</button>
+                        ${exercise.video ? `<a href="${exercise.video}" target="_blank"><i class="fas fa-video"></i></a>` : ''}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <div class="action-btn edit-btn" data-index="${filteredExercises.indexOf(exercise)}">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="action-btn delete-btn" data-index="${filteredExercises.indexOf(exercise)}">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            ${exercise.video ? `
+                                <div class="action-btn video-btn" data-url="${exercise.video}" data-index="${filteredExercises.indexOf(exercise)}">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            ` : ''}
+                        </div>
                     </td>
                 `;
                 
-                exercisesBody.appendChild(row);
+                exercisesBody.appendChild(tr);
             });
             
-            // Update event listeners for edit and delete buttons
+            // Add event listeners to edit and delete buttons
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', handleEditExercise);
             });
@@ -480,18 +1131,16 @@
                 btn.addEventListener('click', handleDeleteExercise);
             });
             
-            // Save updated exercises data
-            saveExercises(exercises);
+            document.querySelectorAll('.video-btn').forEach(btn => {
+                btn.addEventListener('click', handleVideoClick);
+            });
             
             // Update statistics
             updateStatistics();
         }
 
-        // Handle edit exercise
         function handleEditExercise(e) {
-            const index = parseInt(e.target.dataset.index);
-            currentEditingIndex = index;
-            
+            const index = parseInt(e.currentTarget.getAttribute('data-index'));
             const exercise = exercises[index];
             
             // Fill the form with exercise data
@@ -499,139 +1148,267 @@
             exerciseLevelInput.value = exercise.level;
             exerciseTargetInput.value = exercise.target;
             exerciseProgressInput.value = exercise.progress;
+            exerciseVideoInput.value = exercise.video;
             
             // Show update and cancel buttons, hide add button
             addExerciseBtn.style.display = 'none';
-            updateExerciseBtn.style.display = 'inline-block';
-            cancelEditBtn.style.display = 'inline-block';
+            updateExerciseBtn.style.display = 'inline-flex';
+            cancelEditBtn.style.display = 'inline-flex';
             
-            // Scroll to form
-            document.querySelector('.add-exercise-section').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            // Set current editing index
+            currentEditingIndex = index;
+            
+            // Scroll to form and highlight it
+            const formCard = document.querySelector('.card:nth-child(2)');
+            formCard.scrollIntoView({ behavior: 'smooth' });
+            formCard.classList.add('pulse');
+            setTimeout(() => formCard.classList.remove('pulse'), 500);
         }
 
-        // Handle delete exercise
         function handleDeleteExercise(e) {
-            const index = parseInt(e.target.dataset.index);
-            
-            if (confirm(`Êtes-vous sûr de vouloir supprimer l'exercice "${exercises[index].name}" ?`)) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')) {
+                const index = parseInt(e.currentTarget.getAttribute('data-index'));
                 exercises.splice(index, 1);
+                saveExercises(exercises);
                 renderExercises();
+                updateChart();
             }
         }
 
-        // Cancel edit
-        function cancelEdit() {
-            currentEditingIndex = -1;
+        function handleVideoClick(e) {
+            const videoUrl = e.currentTarget.getAttribute('data-url');
+            if (videoUrl) {
+                openVideoModal(videoUrl);
+            }
+        }
+
+        function openVideoModal(url) {
+            // Extract video ID from URL
+            let videoId = '';
+            let embedHtml = '';
             
+            // Handle YouTube URLs
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                if (url.includes('youtube.com/watch?v=')) {
+                    videoId = url.split('v=')[1].split('&')[0];
+                } else if (url.includes('youtu.be/')) {
+                    videoId = url.split('youtu.be/')[1].split('?')[0];
+                }
+                
+                if (videoId) {
+                    embedHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" 
+                                  title="YouTube video player" 
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                  allowfullscreen></iframe>`;
+                }
+            } 
+            // Handle Vimeo URLs
+            else if (url.includes('vimeo.com')) {
+                if (url.includes('vimeo.com/')) {
+                    videoId = url.split('vimeo.com/')[1].split('?')[0];
+                }
+                
+                if (videoId) {
+                    embedHtml = `<iframe src="https://player.vimeo.com/video/${videoId}" 
+                                  allow="autoplay; fullscreen; picture-in-picture" 
+                                  allowfullscreen></iframe>`;
+                }
+            } 
+            // For other URLs, create a simple link
+            else {
+                embedHtml = `<div style="padding: 20px; text-align: center;">
+                              <p>Impossible d'intégrer cette vidéo.</p>
+                              <a href="${url}" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 15px;">
+                                <i class="fas fa-external-link-alt"></i> Ouvrir la vidéo dans un nouvel onglet
+                              </a>
+                            </div>`;
+            }
+            
+            // Set the embed HTML and show the modal
+            videoEmbed.innerHTML = embedHtml;
+            videoModal.classList.add('active');
+            
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cancelEdit() {
             // Clear form
             exerciseNameInput.value = '';
             exerciseTargetInput.value = '';
             exerciseProgressInput.value = '';
+            exerciseLevelInput.value = 'Débutant';
+            exerciseVideoInput.value = '';
             
             // Show add button, hide update and cancel buttons
-            addExerciseBtn.style.display = 'inline-block';
+            addExerciseBtn.style.display = 'inline-flex';
             updateExerciseBtn.style.display = 'none';
             cancelEditBtn.style.display = 'none';
+            
+            // Reset current editing index
+            currentEditingIndex = -1;
         }
 
-        // Add new exercise
         function addExercise() {
             const name = exerciseNameInput.value.trim();
             const level = exerciseLevelInput.value;
             const target = exerciseTargetInput.value.trim();
             const progress = exerciseProgressInput.value.trim();
+            const video = exerciseVideoInput.value.trim();
             
-            if (!name) {
-                alert('Veuillez entrer un nom d\'exercice.');
+            if (!name || !target || !progress) {
+                alert('Veuillez remplir tous les champs.');
                 return;
             }
+            
+            const completed = calculateCompletion(progress, target);
             
             const newExercise = {
                 name,
                 level,
                 target,
                 progress,
-                completed: calculateCompletion(progress, target)
+                completed,
+                video
             };
             
             exercises.push(newExercise);
+            saveExercises(exercises);
             
             // Clear form
             exerciseNameInput.value = '';
             exerciseTargetInput.value = '';
             exerciseProgressInput.value = '';
+            exerciseVideoInput.value = '';
             
             renderExercises();
+            updateChart();
+            
+            // Show success message
+            const formCard = document.querySelector('.card:nth-child(2)');
+            formCard.classList.add('pulse');
+            setTimeout(() => formCard.classList.remove('pulse'), 500);
         }
 
-        // Update existing exercise
         function updateExercise() {
-            if (currentEditingIndex < 0) return;
+            if (currentEditingIndex === -1) return;
             
             const name = exerciseNameInput.value.trim();
             const level = exerciseLevelInput.value;
             const target = exerciseTargetInput.value.trim();
             const progress = exerciseProgressInput.value.trim();
+            const video = exerciseVideoInput.value.trim();
             
-            if (!name) {
-                alert('Veuillez entrer un nom d\'exercice.');
+            if (!name || !target || !progress) {
+                alert('Veuillez remplir tous les champs.');
                 return;
             }
+            
+            const completed = calculateCompletion(progress, target);
             
             exercises[currentEditingIndex] = {
                 name,
                 level,
                 target,
                 progress,
-                completed: calculateCompletion(progress, target)
+                completed,
+                video
             };
             
+            saveExercises(exercises);
+            
+            // Reset form
             cancelEdit();
+            
             renderExercises();
-        }
-
-        // Update statistics
-        function updateStatistics() {
-            const totalCount = exercises.length;
-            const completedCount = exercises.filter(ex => ex.completed >= 100).length;
-            const averageProgress = exercises.length > 0 
-                ? Math.round(exercises.reduce((sum, ex) => sum + ex.completed, 0) / exercises.length) 
-                : 0;
-            
-            document.getElementById('total-count').textContent = totalCount;
-            document.getElementById('completed-count').textContent = completedCount;
-            document.getElementById('average-progress').textContent = averageProgress;
-            
             updateChart();
         }
 
-        // Update chart
+        function updateStatistics() {
+            const totalExercises = exercises.length;
+            
+            // Calculate average completion
+            let totalCompletion = 0;
+            exercises.forEach(exercise => {
+                totalCompletion += exercise.completed;
+            });
+            const averageCompletion = totalExercises > 0 ? Math.round(totalCompletion / totalExercises) : 0;
+            
+            // Count completed exercises (>= 90%)
+            const completedExercises = exercises.filter(exercise => exercise.completed >= 90).length;
+            
+            // Update DOM
+            totalExercisesEl.textContent = totalExercises;
+            averageCompletionEl.textContent = `${averageCompletion}%`;
+            completedExercisesEl.textContent = completedExercises;
+            
+            // Add animation
+            document.querySelectorAll('.stat-value').forEach(el => {
+                el.classList.add('pulse');
+                setTimeout(() => el.classList.remove('pulse'), 500);
+            });
+        }
+
         function updateChart() {
             const ctx = document.getElementById('progress-chart').getContext('2d');
             
-            // Prepare data for chart by level
+            // Prepare data for chart
             const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
-            const levelCounts = levels.map(level => exercises.filter(ex => ex.level === level).length);
-            const levelCompleted = levels.map(level => 
-                exercises
-                    .filter(ex => ex.level === level)
-                    .filter(ex => ex.completed >= 100)
-                    .length
-            );
-            const levelProgress = levels.map(level => {
-                const levelExercises = exercises.filter(ex => ex.level === level);
-                return levelExercises.length > 0 
-                    ? Math.round(levelExercises.reduce((sum, ex) => sum + ex.completed, 0) / levelExercises.length) 
-                    : 0;
+            const levelColors = {
+                'Débutant': {
+                    background: 'rgba(76, 201, 240, 0.2)',
+                    border: 'rgba(76, 201, 240, 1)'
+                },
+                'Intermédiaire': {
+                    background: 'rgba(67, 97, 238, 0.2)',
+                    border: 'rgba(67, 97, 238, 1)'
+                },
+                'Avancé': {
+                    background: 'rgba(114, 9, 183, 0.2)',
+                    border: 'rgba(114, 9, 183, 1)'
+                },
+                'Expert': {
+                    background: 'rgba(247, 37, 133, 0.2)',
+                    border: 'rgba(247, 37, 133, 1)'
+                }
+            };
+            
+            // Group exercises by level
+            const exercisesByLevel = {};
+            levels.forEach(level => {
+                exercisesByLevel[level] = exercises.filter(ex => ex.level === level);
             });
+            
+            // Calculate metrics for each level
+            const levelData = levels.map(level => {
+                const levelExercises = exercisesByLevel[level];
+                const count = levelExercises.length;
+                const completed = levelExercises.filter(ex => ex.completed >= 90).length;
+                const avgProgress = count > 0 
+                    ? Math.round(levelExercises.reduce((sum, ex) => sum + ex.completed, 0) / count) 
+                    : 0;
+                
+                return {
+                    level,
+                    count,
+                    completed,
+                    avgProgress
+                };
+            });
+            
+            // Prepare datasets
+            const countData = levelData.map(d => d.count);
+            const completedData = levelData.map(d => d.completed);
+            const progressData = levelData.map(d => d.avgProgress);
             
             // Destroy previous chart if exists
             if (progressChart) {
                 progressChart.destroy();
             }
+            
+            // Set Chart.js defaults based on theme
+            Chart.defaults.color = isDarkMode ? '#adb5bd' : '#6c757d';
+            Chart.defaults.borderColor = isDarkMode ? '#343a40' : '#dee2e6';
             
             // Create new chart
             progressChart = new Chart(ctx, {
@@ -641,82 +1418,199 @@
                     datasets: [
                         {
                             label: 'Nombre d\'exercices',
-                            data: levelCounts,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
+                            data: countData,
+                            backgroundColor: levels.map(level => levelColors[level].background),
+                            borderColor: levels.map(level => levelColors[level].border),
+                            borderWidth: 2,
+                            borderRadius: 4
                         },
                         {
                             label: 'Exercices complétés',
-                            data: levelCompleted,
-                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
+                            data: completedData,
+                            backgroundColor: 'rgba(56, 176, 0, 0.2)',
+                            borderColor: 'rgba(56, 176, 0, 1)',
+                            borderWidth: 2,
+                            borderRadius: 4
                         },
                         {
                             label: 'Progression moyenne (%)',
-                            data: levelProgress,
-                            backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                            borderColor: 'rgba(255, 159, 64, 1)',
-                            borderWidth: 1
+                            data: progressData,
+                            type: 'line',
+                            fill: false,
+                            backgroundColor: 'rgba(255, 190, 11, 0.2)',
+                            borderColor: 'rgba(255, 190, 11, 1)',
+                            borderWidth: 3,
+                            tension: 0.2,
+                            pointBackgroundColor: 'rgba(255, 190, 11, 1)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            grid: {
+                                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 15,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDarkMode ? '#1e1e1e' : 'rgba(255, 255, 255, 0.9)',
+                            titleColor: isDarkMode ? '#f8f9fa' : '#212529',
+                            bodyColor: isDarkMode ? '#adb5bd' : '#6c757d',
+                            borderColor: isDarkMode ? '#343a40' : '#dee2e6',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            usePointStyle: true,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y || 0;
+                                    return `${label}: ${value}${context.datasetIndex === 2 ? '%' : ''}`;
+                                }
+                            }
                         }
                     }
                 }
             });
         }
 
-        // Export data
-        function exportData() {
-            const dataStr = JSON.stringify(exercises, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
             
-            const exportLink = document.createElement('a');
-            exportLink.setAttribute('href', dataUri);
-            exportLink.setAttribute('download', 'calisthenics-progress.json');
-            document.body.appendChild(exportLink);
-            exportLink.click();
-            document.body.removeChild(exportLink);
+            // Update body attribute
+            if (isDarkMode) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.removeAttribute('data-theme');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Save preference
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Update chart
+            updateChart();
         }
 
-        // Import data
-        function importData() {
-            importFileInput.click();
+        function closeVideoModal() {
+            videoModal.classList.remove('active');
+            // Clear the embed after animation completes
+            setTimeout(() => {
+                videoEmbed.innerHTML = '';
+            }, 300);
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
         }
 
-        // Handle file import
+        function exportData() {
+            // Create a formatted JSON string
+            const dataStr = JSON.stringify(exercises, null, 2);
+            
+            // Create a blob and download link
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `calisthenics-tracker-export-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            // Visual feedback
+            exportBtn.classList.add('pulse');
+            setTimeout(() => exportBtn.classList.remove('pulse'), 500);
+        }
+
         function handleFileImport(e) {
             const file = e.target.files[0];
             if (!file) return;
             
             const reader = new FileReader();
-            reader.onload = function(e) {
+            
+            reader.onload = function(event) {
                 try {
-                    const importedData = JSON.parse(e.target.result);
+                    const importedData = JSON.parse(event.target.result);
+                    
                     if (Array.isArray(importedData)) {
-                        exercises = importedData;
-                        saveExercises(exercises);
-                        renderExercises();
-                        alert('Données importées avec succès!');
+                        // Validate imported data structure
+                        const isValid = importedData.every(item => 
+                            typeof item === 'object' && 
+                            'name' in item && 
+                            'level' in item && 
+                            'target' in item && 
+                            'progress' in item
+                        );
+                        
+                        if (isValid) {
+                            // Recalculate completion for all items
+                            importedData.forEach(item => {
+                                item.completed = calculateCompletion(item.progress, item.target);
+                            });
+                            
+                            exercises = importedData;
+                            saveExercises(exercises);
+                            renderExercises();
+                            updateChart();
+                            
+                            // Success feedback
+                            alert('Données importées avec succès!');
+                        } else {
+                            throw new Error('Structure de données invalide');
+                        }
                     } else {
-                        throw new Error('Format invalide');
+                        throw new Error('Format de fichier invalide');
                     }
                 } catch (error) {
-                    alert('Erreur lors de l\'importation: ' + error.message);
+                    alert(`Erreur lors de l'importation: ${error.message}`);
                 }
             };
+            
+            reader.onerror = function() {
+                alert('Erreur de lecture du fichier');
+            };
+            
             reader.readAsText(file);
+            
+            // Reset the input
+            e.target.value = '';
         }
 
-        // Event listeners
+        // Event Listeners
         levelFilter.addEventListener('change', renderExercises);
         searchInput.addEventListener('input', renderExercises);
         clearFiltersBtn.addEventListener('click', () => {
@@ -724,17 +1618,49 @@
             searchInput.value = '';
             renderExercises();
         });
-
+        
         addExerciseBtn.addEventListener('click', addExercise);
         updateExerciseBtn.addEventListener('click', updateExercise);
         cancelEditBtn.addEventListener('click', cancelEdit);
-
-        exportDataBtn.addEventListener('click', exportData);
-        importDataBtn.addEventListener('click', importData);
+        
+        exportBtn.addEventListener('click', exportData);
         importFileInput.addEventListener('change', handleFileImport);
-
-        // Initialize
+        themeToggleBtn.addEventListener('click', toggleDarkMode);
+        videoCloseBtn.addEventListener('click', closeVideoModal);
+        
+        // Close modal when clicking outside the video container
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                closeVideoModal();
+            }
+        });
+        
+        // Initialize the app
         renderExercises();
+        updateChart();
+        
+        // Add smooth scrolling for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
