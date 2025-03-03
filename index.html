@@ -1057,6 +1057,57 @@
                 max-height: 95vh;
             }
         }
+
+        /* Drag and drop styles */
+        .drag-handle {
+            cursor: grab;
+            color: var(--text-secondary);
+            padding: 0 5px;
+            transition: color 0.2s;
+        }
+        
+        .drag-handle:hover {
+            color: var(--primary);
+        }
+        
+        tr.dragging {
+            opacity: 0.5;
+            background-color: var(--surface-hover);
+        }
+        
+        tr.drag-over {
+            border-top: 2px solid var(--primary);
+        }
+        
+        .custom-order-active .drag-handle {
+            color: var(--primary);
+        }
+        
+        .order-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .order-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .order-toggle:hover {
+            background-color: var(--surface-hover);
+        }
+        
+        .order-toggle i {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -1086,6 +1137,7 @@
                     <input type="text" id="search" placeholder="Nom de l'exercice...">
                 </div>
                 <button id="clear-filters" class="btn-neutral"><i class="fas fa-broom"></i> Effacer les filtres</button>
+                <button id="custom-order-toggle" class="btn-neutral"><i class="fas fa-sort"></i> Ordre personnalisé</button>
             </div>
             
             <div class="card">
@@ -1280,6 +1332,15 @@
         const videoModal = document.getElementById('video-modal');
         const videoEmbed = document.getElementById('video-embed');
         const videoCloseBtn = document.getElementById('video-close');
+        const customOrderToggle = document.getElementById('custom-order-toggle');
+        
+        // State variables
+        let exercises = loadExercises();
+        let currentEditingIndex = -1;
+        let draggingElement = null;
+        let customOrderActive = false;
+        let progressChart = null;
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
 
         // Initial data
         const initialData = [
@@ -1300,18 +1361,6 @@
             { name: "One Arm Pull-up", level: "Expert", progress: "0", target: "5", completed: 0, video: "" },
             { name: "Human Flag", level: "Expert", progress: "1s", target: "15s", completed: 7, video: "" }
         ];
-
-        // Global variables
-        let exercises = loadExercises();
-        let currentEditingIndex = -1;
-        let progressChart = null;
-        let isDarkMode = localStorage.getItem('darkMode') === 'true';
-
-        // Initialize dark mode
-        if (isDarkMode) {
-            document.body.setAttribute('data-theme', 'dark');
-            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        }
 
         // Helper Functions
         function saveExercises(exercises) {
@@ -1413,24 +1462,48 @@
                 return levelMatch && searchMatch;
             });
             
-            // Sort exercises by level and then by name
-            const sortedExercises = [...filteredExercises].sort((a, b) => {
-                const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
-                const levelA = levels.indexOf(a.level);
-                const levelB = levels.indexOf(b.level);
-                
-                if (levelA !== levelB) {
-                    return levelA - levelB;
-                }
-                
-                return a.name.localeCompare(b.name);
-            });
+            // Sort exercises
+            let sortedExercises;
+            
+            if (customOrderActive) {
+                // Use the order property if custom order is active
+                sortedExercises = [...filteredExercises].sort((a, b) => {
+                    // If order property doesn't exist, assign a high value
+                    const orderA = a.order !== undefined ? a.order : 9999;
+                    const orderB = b.order !== undefined ? b.order : 9999;
+                    return orderA - orderB;
+                });
+            } else {
+                // Default sorting by level and name
+                sortedExercises = [...filteredExercises].sort((a, b) => {
+                    const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
+                    const levelA = levels.indexOf(a.level);
+                    const levelB = levels.indexOf(b.level);
+                    
+                    if (levelA !== levelB) {
+                        return levelA - levelB;
+                    }
+                    
+                    return a.name.localeCompare(b.name);
+                });
+            }
             
             // Render each exercise
             sortedExercises.forEach((exercise, index) => {
                 const tr = document.createElement('tr');
                 tr.classList.add('fade-in');
                 tr.style.animationDelay = `${index * 0.05}s`;
+                tr.setAttribute('data-id', exercise.id || index);
+                
+                if (customOrderActive) {
+                    tr.setAttribute('draggable', 'true');
+                    tr.addEventListener('dragstart', handleDragStart);
+                    tr.addEventListener('dragover', handleDragOver);
+                    tr.addEventListener('dragenter', handleDragEnter);
+                    tr.addEventListener('dragleave', handleDragLeave);
+                    tr.addEventListener('drop', handleDrop);
+                    tr.addEventListener('dragend', handleDragEnd);
+                }
                 
                 const levelClass = getLevelClass(exercise.level);
                 const completed = calculateCompletion(exercise.progress, exercise.target);
@@ -1473,8 +1546,15 @@
                     `;
                 }
                 
+                // Add drag handle if custom order is active
+                const dragHandleHtml = customOrderActive ? 
+                    `<div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>` : '';
+                
                 tr.innerHTML = `
-                    <td>${exercise.name}</td>
+                    <td>
+                        ${dragHandleHtml}
+                        ${exercise.name}
+                    </td>
                     <td>
                         <span class="level-badge level-${levelClass}">${exercise.level}</span>
                     </td>
@@ -1530,6 +1610,13 @@
                 btn.addEventListener('click', handleHistoryClick);
             });
             
+            // Update table appearance based on custom order mode
+            if (customOrderActive) {
+                exercisesTable.classList.add('custom-order-active');
+            } else {
+                exercisesTable.classList.remove('custom-order-active');
+            }
+            
             // Update statistics
             updateStatistics();
         }
@@ -1562,19 +1649,12 @@
         }
 
         function handleDeleteExercise(e) {
+            const index = parseInt(e.currentTarget.getAttribute('data-index'));
             if (confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')) {
-                const index = parseInt(e.currentTarget.getAttribute('data-index'));
                 exercises.splice(index, 1);
                 saveExercises(exercises);
                 renderExercises();
                 updateChart();
-            }
-        }
-
-        function handleVideoClick(e) {
-            const videoUrl = e.currentTarget.getAttribute('data-url');
-            if (videoUrl) {
-                openVideoModal(videoUrl);
             }
         }
 
@@ -1633,6 +1713,13 @@
             
             // Show modal
             historyModal.classList.add('active');
+        }
+
+        function handleVideoClick(e) {
+            const url = e.currentTarget.getAttribute('data-url');
+            if (url) {
+                openVideoModal(url);
+            }
         }
 
         function openVideoModal(url) {
@@ -2106,6 +2193,29 @@
         themeToggleBtn.addEventListener('click', toggleDarkMode);
         videoCloseBtn.addEventListener('click', closeVideoModal);
         
+        customOrderToggle.addEventListener('click', () => {
+            customOrderActive = !customOrderActive;
+            
+            // If enabling custom order, make sure each exercise has an order property
+            if (customOrderActive) {
+                // Assign order based on current display order if not already set
+                exercises.forEach((exercise, index) => {
+                    if (exercise.order === undefined) {
+                        exercise.order = index;
+                    }
+                });
+                
+                // Save the updated exercises with order property
+                saveExercises(exercises);
+                
+                customOrderToggle.classList.add('active');
+            } else {
+                customOrderToggle.classList.remove('active');
+            }
+            
+            renderExercises();
+        });
+        
         // Close modal when clicking outside the video container
         videoModal.addEventListener('click', function(e) {
             if (e.target === videoModal) {
@@ -2147,6 +2257,105 @@
                     });
                 }
             });
+        });
+        
+        // Drag and drop event listeners
+        function handleDragStart(e) {
+            draggingElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+        
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+        
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            // Remove drag-over class
+            this.classList.remove('drag-over');
+            
+            // Don't do anything if dropping onto the same element
+            if (draggingElement === this) {
+                return false;
+            }
+            
+            // Get the dragged and target exercise IDs
+            const draggedId = draggingElement.getAttribute('data-id');
+            const targetId = this.getAttribute('data-id');
+            
+            // Find the exercises in the array
+            const draggedExerciseIndex = exercises.findIndex(ex => (ex.id || exercises.indexOf(ex)) == draggedId);
+            const targetExerciseIndex = exercises.findIndex(ex => (ex.id || exercises.indexOf(ex)) == targetId);
+            
+            if (draggedExerciseIndex !== -1 && targetExerciseIndex !== -1) {
+                // Get the current order values
+                const draggedOrder = exercises[draggedExerciseIndex].order !== undefined ? 
+                    exercises[draggedExerciseIndex].order : draggedExerciseIndex;
+                const targetOrder = exercises[targetExerciseIndex].order !== undefined ? 
+                    exercises[targetExerciseIndex].order : targetExerciseIndex;
+                
+                // Update order for all exercises between the dragged and target positions
+                exercises.forEach(exercise => {
+                    const exerciseOrder = exercise.order !== undefined ? exercise.order : exercises.indexOf(exercise);
+                    
+                    if (draggedOrder < targetOrder) {
+                        // Moving down
+                        if (exerciseOrder > draggedOrder && exerciseOrder <= targetOrder) {
+                            exercise.order = exerciseOrder - 1;
+                        }
+                    } else {
+                        // Moving up
+                        if (exerciseOrder >= targetOrder && exerciseOrder < draggedOrder) {
+                            exercise.order = exerciseOrder + 1;
+                        }
+                    }
+                });
+                
+                // Set the new order for the dragged exercise
+                exercises[draggedExerciseIndex].order = targetOrder;
+                
+                // Save the updated exercises
+                saveExercises(exercises);
+                
+                // Re-render the exercises
+                renderExercises();
+            }
+            
+            return false;
+        }
+        
+        function handleDragEnd(e) {
+            // Remove the dragging class
+            this.classList.remove('dragging');
+            
+            // Reset the dragging element
+            draggingElement = null;
+            
+            // Remove drag-over class from all rows
+            document.querySelectorAll('tr').forEach(row => {
+                row.classList.remove('drag-over');
+            });
+        }
+        
+        // Add ID property to exercises if they don't have one
+        exercises.forEach((exercise, index) => {
+            if (!exercise.id) {
+                exercise.id = Date.now() + index;
+            }
         });
     </script>
 </body>
