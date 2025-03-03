@@ -717,6 +717,346 @@
                 height: 250px;
             }
         }
+
+        /* Exercise History Styles */
+        .workout-exercise {
+            padding: 15px;
+        }
+
+        .history-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            background-color: var(--background);
+            color: var(--text-secondary);
+            white-space: nowrap;
+            margin-left: 5px;
+        }
+
+        .history-badge i {
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+
+        .history-recent {
+            background-color: rgba(58, 134, 255, 0.2);
+            color: var(--primary);
+        }
+
+        .history-old {
+            background-color: rgba(131, 56, 236, 0.2);
+            color: var(--secondary);
+        }
+
+        .history-none {
+            background-color: rgba(255, 87, 87, 0.2);
+            color: #ff5757;
+        }
+
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            margin-left: 8px;
+        }
+
+        .streak-badge i {
+            margin-right: 4px;
+        }
+
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .history-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .history-container {
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            background-color: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .history-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .history-close:hover {
+            transform: scale(1.1);
+        }
+
+        .history-content {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(90vh - 60px);
+        }
+
+        .history-chart-container {
+            height: 250px;
+            margin-bottom: 20px;
+            background-color: var(--background);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .history-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--background);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .history-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .history-entry-date {
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-entry-value {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+        }
+
+        .history-empty i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            margin-top: 30px;
+            background-color: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .calendar-nav button:hover {
+            background-color: var(--background);
+            color: var(--accent);
+        }
+
+        .calendar-month {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 5px;
+            font-size: 0.8rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            background-color: var(--background);
+        }
+
+        .calendar-day:hover {
+            background-color: var(--background-hover);
+        }
+
+        .calendar-day-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .calendar-day-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+
+        .calendar-day.has-workout .calendar-day-indicator {
+            background-color: var(--accent);
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--accent);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.4;
+        }
+
+        .date-picker-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .date-picker {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--input-bg);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .date-picker-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .reminder-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #ff5757;
+            color: white;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-grid {
+                gap: 2px;
+            }
+            
+            .calendar-day-number {
+                font-size: 0.8rem;
+            }
+            
+            .history-container {
+                width: 95%;
+                max-height: 95vh;
+            }
+        }
     </style>
 </head>
 <body>
@@ -772,6 +1112,13 @@
                     <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
                 </div>
                 <div class="form-group">
+                    <label for="exercise-date">Date de l'entraînement:</label>
+                    <div class="date-picker-container">
+                        <input type="date" id="exercise-date" class="date-picker">
+                        <i class="fas fa-calendar-alt date-picker-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="exercise-video">URL Vidéo (optionnel):</label>
                     <input type="text" id="exercise-video" placeholder="URL YouTube ou autre vidéo">
                 </div>
@@ -792,6 +1139,7 @@
                         <th>Progression</th>
                         <th>Objectif</th>
                         <th>Complété</th>
+                        <th>Dernière fois</th>
                         <th>Vidéo</th>
                         <th>Actions</th>
                     </tr>
@@ -916,6 +1264,7 @@
         const exerciseLevelInput = document.getElementById('exercise-level');
         const exerciseTargetInput = document.getElementById('exercise-target');
         const exerciseProgressInput = document.getElementById('exercise-progress');
+        const exerciseDateInput = document.getElementById('exercise-date');
         const exerciseVideoInput = document.getElementById('exercise-video');
         const addExerciseBtn = document.getElementById('add-exercise');
         const updateExerciseBtn = document.getElementById('update-exercise');
@@ -1086,6 +1435,44 @@
                 const levelClass = getLevelClass(exercise.level);
                 const completed = calculateCompletion(exercise.progress, exercise.target);
                 
+                // Get last performed date
+                let lastPerformedHtml = '';
+                if (exercise.history && exercise.history.length > 0) {
+                    // Sort history by date (newest first)
+                    const sortedHistory = [...exercise.history].sort((a, b) => new Date(b.date) - new Date(a.date));
+                    const lastPerformed = sortedHistory[0];
+                    const lastDate = new Date(lastPerformed.date);
+                    
+                    // Calculate days since last performed
+                    const today = new Date();
+                    const diffTime = Math.abs(today - lastDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    // Determine badge class based on recency
+                    let badgeClass = 'history-recent';
+                    if (diffDays > 14) {
+                        badgeClass = 'history-old';
+                    } else if (diffDays > 7) {
+                        badgeClass = '';
+                    }
+                    
+                    // Format date in French
+                    const options = { day: 'numeric', month: 'short' };
+                    const formattedDate = lastDate.toLocaleDateString('fr-FR', options);
+                    
+                    lastPerformedHtml = `
+                        <span class="history-badge ${badgeClass}">
+                            <i class="fas fa-calendar-check"></i> ${formattedDate} (${diffDays}j)
+                        </span>
+                    `;
+                } else {
+                    lastPerformedHtml = `
+                        <span class="history-badge history-none">
+                            <i class="fas fa-calendar-times"></i> Jamais
+                        </span>
+                    `;
+                }
+                
                 tr.innerHTML = `
                     <td>${exercise.name}</td>
                     <td>
@@ -1099,6 +1486,7 @@
                         </div>
                         <span>${completed}%</span>
                     </td>
+                    <td>${lastPerformedHtml}</td>
                     <td>
                         ${exercise.video ? `<a href="${exercise.video}" target="_blank"><i class="fas fa-video"></i></a>` : ''}
                     </td>
@@ -1109,6 +1497,9 @@
                             </div>
                             <div class="action-btn delete-btn" data-index="${filteredExercises.indexOf(exercise)}">
                                 <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div class="action-btn history-btn" data-index="${filteredExercises.indexOf(exercise)}">
+                                <i class="fas fa-history"></i>
                             </div>
                             ${exercise.video ? `
                                 <div class="action-btn video-btn" data-url="${exercise.video}" data-index="${filteredExercises.indexOf(exercise)}">
@@ -1122,7 +1513,7 @@
                 exercisesBody.appendChild(tr);
             });
             
-            // Add event listeners to edit and delete buttons
+            // Add event listeners to buttons
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', handleEditExercise);
             });
@@ -1133,6 +1524,10 @@
             
             document.querySelectorAll('.video-btn').forEach(btn => {
                 btn.addEventListener('click', handleVideoClick);
+            });
+            
+            document.querySelectorAll('.history-btn').forEach(btn => {
+                btn.addEventListener('click', handleHistoryClick);
             });
             
             // Update statistics
@@ -1148,6 +1543,7 @@
             exerciseLevelInput.value = exercise.level;
             exerciseTargetInput.value = exercise.target;
             exerciseProgressInput.value = exercise.progress;
+            exerciseDateInput.value = exercise.date;
             exerciseVideoInput.value = exercise.video;
             
             // Show update and cancel buttons, hide add button
@@ -1180,6 +1576,63 @@
             if (videoUrl) {
                 openVideoModal(videoUrl);
             }
+        }
+
+        function handleHistoryClick(e) {
+            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+            const exercise = exercises[index];
+            
+            // Create history modal content
+            const historyModal = document.getElementById('history-modal');
+            const historyContainer = document.getElementById('history-container');
+            const historyHeader = document.getElementById('history-header');
+            const historyTitle = document.getElementById('history-title');
+            const historyClose = document.getElementById('history-close');
+            const historyContent = document.getElementById('history-content');
+            const historyChartContainer = document.getElementById('history-chart-container');
+            const historyEntries = document.getElementById('history-entries');
+            
+            // Set modal title and close button
+            historyTitle.textContent = exercise.name;
+            historyClose.addEventListener('click', () => {
+                historyModal.classList.remove('active');
+            });
+            
+            // Clear previous content
+            historyContent.innerHTML = '';
+            historyEntries.innerHTML = '';
+            
+            // Render history entries
+            if (exercise.history && exercise.history.length > 0) {
+                exercise.history.forEach((entry, index) => {
+                    const entryDate = new Date(entry.date);
+                    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                    const formattedDate = entryDate.toLocaleDateString('fr-FR', options);
+                    
+                    const entryHtml = `
+                        <div class="history-entry">
+                            <div class="history-entry-date">
+                                <i class="fas fa-calendar-alt"></i> ${formattedDate}
+                            </div>
+                            <div class="history-entry-value">
+                                ${entry.value}
+                            </div>
+                        </div>
+                    `;
+                    
+                    historyEntries.innerHTML += entryHtml;
+                });
+            } else {
+                historyContent.innerHTML = `
+                    <div class="history-empty">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>Aucune entrée pour cet exercice.</p>
+                    </div>
+                `;
+            }
+            
+            // Show modal
+            historyModal.classList.add('active');
         }
 
         function openVideoModal(url) {
@@ -1238,6 +1691,7 @@
             exerciseTargetInput.value = '';
             exerciseProgressInput.value = '';
             exerciseLevelInput.value = 'Débutant';
+            exerciseDateInput.value = '';
             exerciseVideoInput.value = '';
             
             // Show add button, hide update and cancel buttons
@@ -1254,6 +1708,7 @@
             const level = exerciseLevelInput.value;
             const target = exerciseTargetInput.value.trim();
             const progress = exerciseProgressInput.value.trim();
+            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
             const video = exerciseVideoInput.value.trim();
             
             if (!name || !target || !progress) {
@@ -1268,6 +1723,7 @@
                 level,
                 target,
                 progress,
+                date: date.toISOString(),
                 completed,
                 video
             };
@@ -1279,6 +1735,7 @@
             exerciseNameInput.value = '';
             exerciseTargetInput.value = '';
             exerciseProgressInput.value = '';
+            exerciseDateInput.value = '';
             exerciseVideoInput.value = '';
             
             renderExercises();
@@ -1298,6 +1755,7 @@
             const target = exerciseTargetInput.value.trim();
             const progress = exerciseProgressInput.value.trim();
             const video = exerciseVideoInput.value.trim();
+            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
             
             if (!name || !target || !progress) {
                 alert('Veuillez remplir tous les champs.');
@@ -1306,13 +1764,33 @@
             
             const completed = calculateCompletion(progress, target);
             
+            // Create history entry if progress changed
+            const currentExercise = exercises[currentEditingIndex];
+            const historyEntry = {
+                date: date.toISOString(),
+                progress: progress,
+                completed: completed
+            };
+            
+            // Initialize history array if it doesn't exist
+            if (!currentExercise.history) {
+                currentExercise.history = [];
+            }
+            
+            // Only add to history if progress changed
+            if (currentExercise.progress !== progress) {
+                currentExercise.history.push(historyEntry);
+            }
+            
             exercises[currentEditingIndex] = {
+                ...currentExercise,
                 name,
                 level,
                 target,
                 progress,
                 completed,
-                video
+                video,
+                lastPerformed: date.toISOString()
             };
             
             saveExercises(exercises);
@@ -1643,6 +2121,15 @@
         });
         
         // Initialize the app
+        if (isDarkMode) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Set date picker to today's date
+        const today = new Date().toISOString().split('T')[0];
+        exerciseDateInput.value = today;
+        
         renderExercises();
         updateChart();
         
