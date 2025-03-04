@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi Calisthenics</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2548/2548537.png">
@@ -261,6 +262,20 @@
 
         tr:hover td {
             background-color: rgba(58, 134, 255, 0.05);
+        }
+
+        tr[draggable=true] {
+            cursor: grab;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        tr.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+            background-color: var(--primary-light);
         }
 
         .progress-container {
@@ -830,11 +845,14 @@
         /* Drag and drop styles */
         .drag-handle {
             cursor: grab;
-            color: var(--text-secondary);
-            padding: 0 5px;
             margin-right: 8px;
+            color: var(--text-secondary);
             display: inline-block;
             vertical-align: middle;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
         .drag-handle:hover {
@@ -1184,6 +1202,28 @@
         let isDarkMode = localStorage.getItem('darkMode') === 'true';
         let currentSortField = 'order'; // Default sort by order
         let currentSortDirection = 'asc'; // Default sort direction
+        
+        // Initial sample data (will be used if no saved data exists)
+        const initialData = [
+            { id: 'exercise_1', name: "Jumping Jacks", level: "Débutant", target: "30", progress: "30", completed: 100, date: new Date().toISOString(), history: [], order: 0 },
+            { id: 'exercise_2', name: "Pull-ups", level: "Intermédiaire", target: "30", progress: "15", completed: 50, date: new Date().toISOString(), history: [], order: 1 },
+            { id: 'exercise_3', name: "Dips sur banc", level: "Débutant", target: "30", progress: "18", completed: 60, date: new Date().toISOString(), history: [], order: 2 },
+            { id: 'exercise_4', name: "Push-ups", level: "Débutant", target: "50", progress: "13", completed: 26, date: new Date().toISOString(), history: [], order: 3 },
+            { id: 'exercise_5', name: "Squats poids du corps", level: "Débutant", target: "50", progress: "30", completed: 60, date: new Date().toISOString(), history: [], order: 4 },
+            { id: 'exercise_6', name: "Lunges sauté", level: "Débutant", target: "300s", progress: "30s", completed: 10, date: new Date().toISOString(), history: [], order: 5 },
+            { id: 'exercise_7', name: "Hollow body hold", level: "Débutant", target: "300s", progress: "50s", completed: 17, date: new Date().toISOString(), history: [], order: 6 },
+            { id: 'exercise_8', name: "Superman hold", level: "Débutant", target: "150s", progress: "45s", completed: 30, date: new Date().toISOString(), history: [], order: 7 },
+            { id: 'exercise_9', name: "Planche", level: "Débutant", target: "300s", progress: "75s", completed: 25, date: new Date().toISOString(), history: [], order: 8 },
+            { id: 'exercise_10', name: "Chin-ups", level: "Intermédiaire", target: "20", progress: "0", completed: 0, date: new Date().toISOString(), history: [], order: 9 },
+            { id: 'exercise_11', name: "Handstand", level: "Avancé", target: "60s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 10 },
+            { id: 'exercise_12', name: "Muscle-up", level: "Avancé", target: "10", progress: "0", completed: 0, date: new Date().toISOString(), history: [], order: 11 },
+            { id: 'exercise_13', name: "Human flag", level: "Avancé", target: "30s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 12 },
+            { id: 'exercise_14', name: "Front lever", level: "Avancé", target: "30s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 13 },
+            { id: 'exercise_15', name: "Back lever", level: "Avancé", target: "30s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 14 },
+            { id: 'exercise_16', name: "Full Maltese", level: "Expert", target: "10s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 15 },
+            { id: 'exercise_17', name: "Iron Cross", level: "Expert", target: "10s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 16 },
+            { id: 'exercise_18', name: "One-arm handstand", level: "Expert", target: "10s", progress: "0s", completed: 0, date: new Date().toISOString(), history: [], order: 17 }
+        ];
         
         // Helper Functions
         function saveExercises(exercisesToSave) {
@@ -1864,6 +1904,19 @@
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
+            
+            // Firefox requires this for drag and drop to work properly
+            if (e.dataTransfer.setDragImage) {
+                const crt = this.cloneNode(true);
+                crt.style.opacity = '0.5';
+                crt.style.position = 'absolute';
+                crt.style.top = '-1000px';
+                document.body.appendChild(crt);
+                e.dataTransfer.setDragImage(crt, 0, 0);
+                setTimeout(() => {
+                    document.body.removeChild(crt);
+                }, 0);
+            }
         }
         
         function handleDragOver(e) {
@@ -1893,8 +1946,12 @@
             }
             
             // Get the dragged and target exercise IDs
-            const draggedId = draggingElement.getAttribute('data-id');
+            const draggedId = e.dataTransfer.getData('text/plain') || (draggingElement ? draggingElement.getAttribute('data-id') : null);
             const targetId = this.getAttribute('data-id');
+            
+            if (!draggedId || !targetId) {
+                return false;
+            }
             
             // Find the exercises in the array
             const draggedExerciseIndex = exercises.findIndex(ex => (ex.id || exercises.indexOf(ex)) == draggedId);
@@ -1994,8 +2051,8 @@
                 let valueA, valueB;
                 
                 if (field === 'order') {
-                    valueA = a.order !== undefined ? a.order : 9999;
-                    valueB = b.order !== undefined ? b.order : 9999;
+                    valueA = a.order !== undefined ? a.order : exercisesToSort.indexOf(a);
+                    valueB = b.order !== undefined ? b.order : exercisesToSort.indexOf(b);
                 } else if (field === 'completed') {
                     valueA = a.completed || 0;
                     valueB = b.completed || 0;
@@ -2007,6 +2064,12 @@
                     return valueB - valueA;
                 }
             });
+        }
+        
+        // Function to add drag and drop listeners to the table rows
+        function addDragListeners() {
+            // This function is intentionally left empty as the drag listeners
+            // are added to each row when they are created in renderExercises
         }
     </script>
 </body>
