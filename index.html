@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* Light mode colors */
             --primary: #3a86ff;
             --primary-dark: #2667cc;
             --secondary: #8338ec;
@@ -46,7 +45,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
         body {
@@ -111,7 +109,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px var(--shadow);
             padding: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:hover {
@@ -154,7 +151,6 @@
             background-color: var(--surface);
             color: var(--text);
             font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         input[type="text"]:focus, 
@@ -183,7 +179,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.2s, transform 0.1s;
         }
 
         button i {
@@ -280,7 +275,6 @@
         .progress-bar {
             height: 100%;
             border-radius: 5px;
-            transition: width 0.5s ease-out;
         }
 
         .progress-beginner {
@@ -338,7 +332,6 @@
             justify-content: center;
             color: white;
             cursor: pointer;
-            transition: transform 0.1s, background-color 0.2s;
         }
 
         .action-btn:hover {
@@ -366,7 +359,6 @@
             color: var(--accent);
             cursor: pointer;
             font-size: 0.9rem;
-            transition: transform 0.2s, color 0.2s;
         }
 
         .video-icon:hover {
@@ -386,8 +378,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px var(--shadow);
             padding: 20px;
-            text-align: center;
-            transition: transform 0.2s;
         }
 
         .stat-card:hover {
@@ -418,59 +408,6 @@
             position: relative;
         }
 
-        .export-import {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .file-label {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 16px;
-            background-color: var(--secondary);
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        .file-label:hover {
-            background-color: #6a2ec4;
-        }
-
-        .file-label:active {
-            transform: scale(0.98);
-        }
-
-        .file-label i {
-            margin-right: 8px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .pulse {
-            animation: pulse 0.5s ease-in-out;
-        }
-
         /* Video Modal Styles */
         .video-modal {
             display: none;
@@ -484,7 +421,6 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .video-modal.active {
@@ -523,159 +459,10 @@
             justify-content: center;
             cursor: pointer;
             z-index: 1001;
-            transition: background-color 0.2s;
         }
 
         .video-close:hover {
             background-color: rgba(255, 0, 0, 0.7);
-        }
-
-        /* Workout Creation Styles */
-        .workout-section {
-            margin-top: 30px;
-            background-color: var(--surface);
-            border-radius: 10px;
-            box-shadow: 0 4px 12px var(--shadow);
-            padding: 20px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .workout-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .workout-title {
-            font-size: 1.5rem;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .workout-builder {
-            background-color: var(--background);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            min-height: 100px;
-            border: 2px dashed var(--border);
-        }
-
-        .workout-builder.active {
-            border: 2px solid var(--accent);
-        }
-
-        .workout-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--surface);
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px var(--shadow);
-            cursor: move;
-            transition: all 0.2s;
-        }
-
-        .workout-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow);
-        }
-
-        .workout-item.dragging {
-            opacity: 0.5;
-        }
-
-        .workout-item-details {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .workout-item-name {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .workout-item-level {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .workout-item-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .workout-item-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .workout-item-actions button:hover {
-            color: var(--accent);
-        }
-
-        .workout-controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .workout-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: var(--background);
-            border-radius: 6px;
-        }
-
-        .workout-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .workout-meta-item i {
-            color: var(--accent);
-        }
-
-        .workout-save-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            align-items: center;
-        }
-
-        .workout-save-form input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background-color: var(--input-bg);
-            color: var(--text);
-        }
-
-        .exercise-checkbox {
-            margin-right: 10px;
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent);
         }
 
         @media (max-width: 768px) {
@@ -687,10 +474,6 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
-            }
-            
-            .theme-toggle {
-                align-self: flex-end;
             }
             
             th, td {
@@ -782,7 +565,6 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .history-modal.active {
@@ -825,7 +607,6 @@
             color: white;
             font-size: 1.2rem;
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
         .history-close:hover {
@@ -859,7 +640,6 @@
             padding: 12px 15px;
             background-color: var(--background);
             border-radius: 8px;
-            transition: transform 0.2s;
         }
 
         .history-entry:hover {
@@ -899,7 +679,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px var(--shadow);
             padding: 20px;
-            animation: fadeIn 0.5s ease-out;
         }
 
         .calendar-header {
@@ -928,13 +707,6 @@
             color: var(--text);
             font-size: 1.2rem;
             cursor: pointer;
-            transition: color 0.2s;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
         }
 
         .calendar-nav button:hover {
@@ -970,9 +742,6 @@
             justify-content: center;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            background-color: var(--background);
         }
 
         .calendar-day:hover {
@@ -1063,7 +832,9 @@
             cursor: grab;
             color: var(--text-secondary);
             padding: 0 5px;
-            transition: color 0.2s;
+            margin-right: 8px;
+            display: inline-block;
+            vertical-align: middle;
         }
         
         .drag-handle:hover {
@@ -1098,7 +869,6 @@
             cursor: pointer;
             padding: 5px 10px;
             border-radius: 5px;
-            transition: background-color 0.2s;
         }
         
         .order-toggle:hover {
@@ -1108,96 +878,246 @@
         .order-toggle i {
             margin-right: 5px;
         }
+        
+        /* Editable content styles */
+        .editable {
+            cursor: pointer;
+            border-bottom: 1px dashed transparent;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .editable:hover {
+            border-bottom-color: var(--primary);
+            background-color: rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .editable:focus {
+            outline: none;
+            border-bottom-color: var(--primary);
+            background-color: rgba(var(--primary-rgb), 0.2);
+        }
+        
+        /* Collapsible sections */
+        .sidebar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-section {
+            flex: 1;
+        }
+        
+        .collapsible {
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .collapsible:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .collapsible-content {
+            display: none;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            padding: 15px;
+        }
+        
+        [data-theme="dark"] .collapsible-content {
+            background-color: var(--dark-bg);
+        }
+        
+        .collapsible-content.active {
+            display: block;
+        }
+        
+        .collapsible .toggle-icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Ensures clicks pass through to the button */
+        }
+        
+        .collapsible .toggle-icon:before {
+            content: "\f107"; /* Using a different chevron down icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 16px;
+        }
+        
+        .collapsible.active .toggle-icon:before {
+            transform: rotate(180deg);
+        }
+        
+        /* Sortable headers */
+        .sortable {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .sortable:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .sortable:after {
+            content: '\f0dc';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+        
+        .sortable.asc:after {
+            content: '\f0de';
+            opacity: 1;
+        }
+        
+        .sortable.desc:after {
+            content: '\f0dd';
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                flex-direction: column;
+            }
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+        }
+        
+        .form-content {
+            padding: 5px 0;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1><i class="fas fa-dumbbell"></i> Suivi Calisthenics</h1>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <button id="toggle-dark-mode" class="theme-toggle" aria-label="Toggle dark mode">
                 <i class="fas fa-moon"></i>
             </button>
         </header>
         
-        <div class="controls">
-            <div class="card">
-                <h3><i class="fas fa-filter"></i> Filtres</h3>
-                <div class="form-group">
-                    <label for="level-filter">Niveau:</label>
-                    <select id="level-filter">
-                        <option value="all">Tous</option>
-                        <option value="Débutant">Débutant</option>
-                        <option value="Intermédiaire">Intermédiaire</option>
-                        <option value="Avancé">Avancé</option>
-                        <option value="Expert">Expert</option>
-                    </select>
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="section-title"><i class="fas fa-filter"></i> Filtres</h3>
+                <div class="form-content" id="filters-content">
+                    <div class="form-group">
+                        <label for="filter-level">Niveau:</label>
+                        <select id="filter-level">
+                            <option value="all">Tous</option>
+                            <option value="Débutant">Débutant</option>
+                            <option value="Intermédiaire">Intermédiaire</option>
+                            <option value="Avancé">Avancé</option>
+                            <option value="Expert">Expert</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-input">Recherche:</label>
+                        <input type="text" id="search-input" placeholder="Nom de l'exercice...">
+                    </div>
+                    <button id="clear-filters" class="btn-neutral" onclick="clearFilters()"><i class="fas fa-broom"></i> Effacer les filtres</button>
                 </div>
-                <div class="form-group">
-                    <label for="search">Recherche:</label>
-                    <input type="text" id="search" placeholder="Nom de l'exercice...">
-                </div>
-                <button id="clear-filters" class="btn-neutral"><i class="fas fa-broom"></i> Effacer les filtres</button>
-                <button id="custom-order-toggle" class="btn-neutral"><i class="fas fa-sort"></i> Ordre personnalisé</button>
             </div>
             
-            <div class="card">
-                <h3><i class="fas fa-plus-circle"></i> Ajouter un exercice</h3>
-                <div class="form-group">
-                    <label for="exercise-name">Exercice:</label>
-                    <input type="text" id="exercise-name" placeholder="Nom de l'exercice">
-                </div>
-                <div class="form-group">
-                    <label for="exercise-level">Niveau:</label>
-                    <select id="exercise-level">
-                        <option value="Débutant">Débutant</option>
-                        <option value="Intermédiaire">Intermédiaire</option>
-                        <option value="Avancé">Avancé</option>
-                        <option value="Expert">Expert</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exercise-target">Objectif:</label>
-                    <input type="text" id="exercise-target" placeholder="Ex: 30, 5m, etc.">
-                </div>
-                <div class="form-group">
-                    <label for="exercise-progress">Progression actuelle:</label>
-                    <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
-                </div>
-                <div class="form-group">
-                    <label for="exercise-date">Date de l'entraînement:</label>
-                    <div class="date-picker-container">
-                        <input type="date" id="exercise-date" class="date-picker">
-                        <i class="fas fa-calendar-alt date-picker-icon"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="exercise-video">URL Vidéo (optionnel):</label>
-                    <input type="text" id="exercise-video" placeholder="URL YouTube ou autre vidéo">
-                </div>
-                <div class="button-group">
-                    <button id="add-exercise" class="btn-success"><i class="fas fa-plus"></i> Ajouter</button>
-                    <button id="update-exercise" style="display:none;"><i class="fas fa-save"></i> Mettre à jour</button>
-                    <button id="cancel-edit" style="display:none;" class="btn-neutral"><i class="fas fa-times"></i> Annuler</button>
+            <div class="sidebar-section">
+                <h3 class="section-title"><i class="fas fa-plus-circle"></i> Ajouter un exercice</h3>
+                <div class="form-content" id="add-exercise-content">
+                    <form id="add-exercise-form">
+                        <div class="form-group">
+                            <label for="exercise-name">Exercice:</label>
+                            <input type="text" id="exercise-name" placeholder="Nom de l'exercice">
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-level">Niveau:</label>
+                            <select id="exercise-level">
+                                <option value="Débutant">Débutant</option>
+                                <option value="Intermédiaire">Intermédiaire</option>
+                                <option value="Avancé">Avancé</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-target">Objectif:</label>
+                            <input type="text" id="exercise-target" placeholder="Ex: 30, 5m, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-progress">Progression actuelle:</label>
+                            <input type="text" id="exercise-progress" placeholder="Ex: 15, 2m30, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-date">Date de l'entraînement:</label>
+                            <div class="date-picker-container">
+                                <input type="date" id="exercise-date" class="date-picker">
+                                <i class="fas fa-calendar-alt date-picker-icon"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-video">URL Vidéo (optionnel):</label>
+                            <input type="text" id="exercise-video" placeholder="URL YouTube ou autre vidéo">
+                        </div>
+                        <div class="button-group">
+                            <button id="add-exercise" class="btn-success"><i class="fas fa-plus"></i> Ajouter</button>
+                            <button id="update-exercise" style="display:none;"><i class="fas fa-save"></i> Mettre à jour</button>
+                            <button id="cancel-edit" style="display:none;" class="btn-neutral"><i class="fas fa-times"></i> Annuler</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         
         <div class="table-container">
-            <table id="exercises-table">
+            <table id="exercise-table">
                 <thead>
                     <tr>
                         <th>Exercice</th>
                         <th>Niveau</th>
                         <th>Progression</th>
                         <th>Objectif</th>
-                        <th>Complété</th>
-                        <th>Dernière fois</th>
+                        <th class="sortable" id="sort-completion">Complété</th>
+                        <th>Dernière séance</th>
                         <th>Vidéo</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="exercises-body">
-                    <!-- Exercises will be rendered here by JavaScript -->
+                    <!-- Exercises will be added here dynamically -->
                 </tbody>
             </table>
         </div>
@@ -1220,59 +1140,6 @@
         <div class="chart-container">
             <canvas id="progress-chart"></canvas>
         </div>
-        
-        <div class="export-import">
-            <button id="export-btn" class="btn-secondary"><i class="fas fa-download"></i> Exporter les données</button>
-            <label for="import-file" class="file-label">
-                <i class="fas fa-upload"></i> Importer des données
-            </label>
-            <input type="file" id="import-file" class="file-input" accept=".json">
-        </div>
-
-        <!-- Workout Creation Section -->
-        <section class="workout-section">
-            <div class="workout-header">
-                <h2 class="workout-title"><i class="fas fa-dumbbell"></i> Créer un Entraînement</h2>
-                <button id="toggle-workout-mode" class="btn-primary"><i class="fas fa-play"></i> Mode Entraînement</button>
-            </div>
-            
-            <p>Sélectionnez des exercices dans le tableau ci-dessus pour les ajouter à votre entraînement.</p>
-            
-            <div id="workout-builder" class="workout-builder">
-                <div id="workout-items"></div>
-                
-                <div id="workout-empty-state" class="text-center" style="padding: 20px; color: var(--text-secondary);">
-                    <i class="fas fa-plus-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                    <p>Cochez les exercices dans le tableau pour les ajouter à votre entraînement</p>
-                </div>
-            </div>
-            
-            <div class="workout-meta">
-                <div class="workout-meta-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Durée estimée: <span id="workout-duration">0 min</span></span>
-                </div>
-                <div class="workout-meta-item">
-                    <i class="fas fa-list-ol"></i>
-                    <span>Nombre d'exercices: <span id="workout-exercise-count">0</span></span>
-                </div>
-            </div>
-            
-            <div class="workout-controls">
-                <div>
-                    <button id="clear-workout" class="btn-secondary"><i class="fas fa-trash-alt"></i> Vider</button>
-                </div>
-                <div class="workout-save-form">
-                    <input type="text" id="workout-name" placeholder="Nom de l'entraînement" class="form-input">
-                    <button id="save-workout" class="btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-                </div>
-            </div>
-            
-            <div id="saved-workouts" class="workout-list">
-                <h3 style="margin-top: 20px; margin-bottom: 15px;">Entraînements Enregistrés</h3>
-                <div id="saved-workouts-list"></div>
-            </div>
-        </section>
     </div>
 
     <!-- Video Modal -->
@@ -1283,34 +1150,12 @@
         </div>
     </div>
 
-    <!-- Workout Mode -->
-    <div id="workout-mode" class="workout-mode">
-        <div class="workout-mode-header">
-            <h2 class="workout-mode-title"><i class="fas fa-dumbbell"></i> <span id="workout-mode-title-text">Entraînement</span></h2>
-            <button id="workout-mode-close" class="workout-mode-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="workout-mode-content">
-            <div id="current-exercise" class="workout-exercise"></div>
-            
-            <div class="workout-navigation">
-                <button id="prev-exercise" class="btn-secondary"><i class="fas fa-arrow-left"></i> Précédent</button>
-                <button id="next-exercise" class="btn-primary">Suivant <i class="fas fa-arrow-right"></i></button>
-            </div>
-            
-            <div class="workout-progress">
-                <div class="workout-progress-bar">
-                    <div id="workout-progress-fill" class="workout-progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="workout-timer" id="workout-timer">00:00</div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
         // DOM Elements
-        const levelFilter = document.getElementById('level-filter');
-        const searchInput = document.getElementById('search');
+        const levelFilter = document.getElementById('filter-level');
+        const searchInput = document.getElementById('search-input');
         const clearFiltersBtn = document.getElementById('clear-filters');
         const exerciseNameInput = document.getElementById('exercise-name');
         const exerciseLevelInput = document.getElementById('exercise-level');
@@ -1321,60 +1166,60 @@
         const addExerciseBtn = document.getElementById('add-exercise');
         const updateExerciseBtn = document.getElementById('update-exercise');
         const cancelEditBtn = document.getElementById('cancel-edit');
-        const exercisesTable = document.getElementById('exercises-table');
+        const exercisesTable = document.getElementById('exercise-table');
         const exercisesBody = document.getElementById('exercises-body');
         const totalExercisesEl = document.getElementById('total-exercises');
         const averageCompletionEl = document.getElementById('average-completion');
         const completedExercisesEl = document.getElementById('completed-exercises');
-        const exportBtn = document.getElementById('export-btn');
-        const importFileInput = document.getElementById('import-file');
-        const themeToggleBtn = document.getElementById('theme-toggle');
         const videoModal = document.getElementById('video-modal');
         const videoEmbed = document.getElementById('video-embed');
         const videoCloseBtn = document.getElementById('video-close');
-        const customOrderToggle = document.getElementById('custom-order-toggle');
+        const themeToggleBtn = document.getElementById('toggle-dark-mode');
         
         // State variables
-        let exercises = loadExercises();
+        let exercises = [];
         let currentEditingIndex = -1;
         let draggingElement = null;
-        let customOrderActive = false;
         let progressChart = null;
         let isDarkMode = localStorage.getItem('darkMode') === 'true';
-
-        // Initial data
-        const initialData = [
-            { name: "Pull-ups (tractions)", level: "Débutant", progress: "15", target: "30", completed: 50, video: "" },
-            { name: "Dips sur banc", level: "Débutant", progress: "18", target: "30", completed: 60, video: "" },
-            { name: "Squats", level: "Débutant", progress: "25", target: "50", completed: 50, video: "" },
-            { name: "Mountain Climbers", level: "Débutant", progress: "20", target: "30", completed: 67, video: "" },
-            { name: "Pompes", level: "Débutant", progress: "15", target: "25", completed: 60, video: "" },
-            { name: "Dips", level: "Intermédiaire", progress: "8", target: "15", completed: 53, video: "" },
-            { name: "Pull-ups L-sit", level: "Intermédiaire", progress: "5", target: "12", completed: 42, video: "" },
-            { name: "Pistol Squats", level: "Intermédiaire", progress: "6", target: "10", completed: 60, video: "" },
-            { name: "Pompes Archer", level: "Intermédiaire", progress: "8", target: "20", completed: 40, video: "" },
-            { name: "Muscle-up", level: "Avancé", progress: "3", target: "10", completed: 30, video: "" },
-            { name: "Handstand Push-ups", level: "Avancé", progress: "2", target: "8", completed: 25, video: "" },
-            { name: "Front Lever", level: "Avancé", progress: "5s", target: "30s", completed: 17, video: "" },
-            { name: "Back Lever", level: "Avancé", progress: "8s", target: "30s", completed: 27, video: "" },
-            { name: "Planche", level: "Expert", progress: "2s", target: "20s", completed: 10, video: "" },
-            { name: "One Arm Pull-up", level: "Expert", progress: "0", target: "5", completed: 0, video: "" },
-            { name: "Human Flag", level: "Expert", progress: "1s", target: "15s", completed: 7, video: "" }
-        ];
-
+        let currentSortField = 'order'; // Default sort by order
+        let currentSortDirection = 'asc'; // Default sort direction
+        
         // Helper Functions
-        function saveExercises(exercises) {
-            localStorage.setItem('calisthenics-exercises', JSON.stringify(exercises));
+        function saveExercises(exercisesToSave) {
+            localStorage.setItem('calisthenics-exercises', JSON.stringify(exercisesToSave));
         }
-
+        
         function loadExercises() {
             const saved = localStorage.getItem('calisthenics-exercises');
+            let exercisesData = [];
+            
             if (saved) {
-                return JSON.parse(saved);
+                exercisesData = JSON.parse(saved);
+                
+                // Ensure all exercises have an ID and order property
+                exercisesData.forEach((exercise, index) => {
+                    if (!exercise.id) {
+                        exercise.id = `exercise_${Date.now()}_${index}`;
+                    }
+                    if (exercise.order === undefined) {
+                        exercise.order = index;
+                    }
+                });
+                
+                saveExercises(exercisesData);
+            } else {
+                exercisesData = initialData;
+                exercisesData.forEach((exercise, index) => {
+                    exercise.id = `exercise_${Date.now()}_${index}`;
+                    exercise.order = index;
+                });
+                saveExercises(exercisesData);
             }
-            return initialData;
+            
+            return exercisesData;
         }
-
+        
         function calculateCompletion(progress, target) {
             // Handle time format (e.g., "5s", "2m30s")
             if (typeof progress === 'string' && typeof target === 'string') {
@@ -1403,7 +1248,7 @@
             
             return 0;
         }
-
+        
         function convertToSeconds(timeStr) {
             // Remove all spaces
             timeStr = timeStr.replace(/\s+/g, '');
@@ -1436,7 +1281,7 @@
             
             return seconds;
         }
-
+        
         function getLevelClass(level) {
             switch(level) {
                 case 'Débutant': return 'beginner';
@@ -1446,7 +1291,7 @@
                 default: return 'beginner';
             }
         }
-
+        
         function renderExercises() {
             // Clear the table body
             exercisesBody.innerHTML = '';
@@ -1463,50 +1308,23 @@
             });
             
             // Sort exercises
-            let sortedExercises;
-            
-            if (customOrderActive) {
-                // Use the order property if custom order is active
-                sortedExercises = [...filteredExercises].sort((a, b) => {
-                    // If order property doesn't exist, assign a high value
-                    const orderA = a.order !== undefined ? a.order : 9999;
-                    const orderB = b.order !== undefined ? b.order : 9999;
-                    return orderA - orderB;
-                });
-            } else {
-                // Default sorting by level and name
-                sortedExercises = [...filteredExercises].sort((a, b) => {
-                    const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert'];
-                    const levelA = levels.indexOf(a.level);
-                    const levelB = levels.indexOf(b.level);
-                    
-                    if (levelA !== levelB) {
-                        return levelA - levelB;
-                    }
-                    
-                    return a.name.localeCompare(b.name);
-                });
-            }
+            const sortedExercises = sortExercises(filteredExercises);
             
             // Render each exercise
             sortedExercises.forEach((exercise, index) => {
                 const tr = document.createElement('tr');
-                tr.classList.add('fade-in');
-                tr.style.animationDelay = `${index * 0.05}s`;
                 tr.setAttribute('data-id', exercise.id || index);
+                tr.setAttribute('draggable', 'true');
                 
-                if (customOrderActive) {
-                    tr.setAttribute('draggable', 'true');
-                    tr.addEventListener('dragstart', handleDragStart);
-                    tr.addEventListener('dragover', handleDragOver);
-                    tr.addEventListener('dragenter', handleDragEnter);
-                    tr.addEventListener('dragleave', handleDragLeave);
-                    tr.addEventListener('drop', handleDrop);
-                    tr.addEventListener('dragend', handleDragEnd);
-                }
+                tr.addEventListener('dragstart', handleDragStart);
+                tr.addEventListener('dragover', handleDragOver);
+                tr.addEventListener('dragenter', handleDragEnter);
+                tr.addEventListener('dragleave', handleDragLeave);
+                tr.addEventListener('drop', handleDrop);
+                tr.addEventListener('dragend', handleDragEnd);
                 
                 const levelClass = getLevelClass(exercise.level);
-                const completed = calculateCompletion(exercise.progress, exercise.target);
+                const completed = exercise.completed || calculateCompletion(exercise.progress, exercise.target);
                 
                 // Get last performed date
                 let lastPerformedHtml = '';
@@ -1529,13 +1347,9 @@
                         badgeClass = '';
                     }
                     
-                    // Format date in French
-                    const options = { day: 'numeric', month: 'short' };
-                    const formattedDate = lastDate.toLocaleDateString('fr-FR', options);
-                    
                     lastPerformedHtml = `
                         <span class="history-badge ${badgeClass}">
-                            <i class="fas fa-calendar-check"></i> ${formattedDate} (${diffDays}j)
+                            <i class="fas fa-calendar-check"></i> ${diffDays} jour${diffDays > 1 ? 's' : ''}
                         </span>
                     `;
                 } else {
@@ -1546,20 +1360,17 @@
                     `;
                 }
                 
-                // Add drag handle if custom order is active
-                const dragHandleHtml = customOrderActive ? 
-                    `<div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>` : '';
+                // Add drag handle
+                const dragHandleHtml = `<div class="drag-handle"><i class="fas fa-th-large"></i></div>`;
                 
                 tr.innerHTML = `
                     <td>
                         ${dragHandleHtml}
                         ${exercise.name}
                     </td>
-                    <td>
-                        <span class="level-badge level-${levelClass}">${exercise.level}</span>
-                    </td>
-                    <td>${exercise.progress}</td>
-                    <td>${exercise.target}</td>
+                    <td>${exercise.level}</td>
+                    <td>${exercise.progress || ''}</td>
+                    <td>${exercise.target || ''}</td>
                     <td>
                         <div class="progress-container">
                             <div class="progress-bar progress-${levelClass}" style="width: ${completed}%"></div>
@@ -1572,348 +1383,35 @@
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <div class="action-btn edit-btn" data-index="${filteredExercises.indexOf(exercise)}">
+                            <button class="btn btn-primary btn-sm edit-exercise" data-id="${exercise.id}">
                                 <i class="fas fa-edit"></i>
-                            </div>
-                            <div class="action-btn delete-btn" data-index="${filteredExercises.indexOf(exercise)}">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
-                            <div class="action-btn history-btn" data-index="${filteredExercises.indexOf(exercise)}">
-                                <i class="fas fa-history"></i>
-                            </div>
-                            ${exercise.video ? `
-                                <div class="action-btn video-btn" data-url="${exercise.video}" data-index="${filteredExercises.indexOf(exercise)}">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                            ` : ''}
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-exercise" data-id="${exercise.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </td>
                 `;
                 
                 exercisesBody.appendChild(tr);
             });
-            
-            // Add event listeners to buttons
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', handleEditExercise);
-            });
-            
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', handleDeleteExercise);
-            });
-            
-            document.querySelectorAll('.video-btn').forEach(btn => {
-                btn.addEventListener('click', handleVideoClick);
-            });
-            
-            document.querySelectorAll('.history-btn').forEach(btn => {
-                btn.addEventListener('click', handleHistoryClick);
-            });
-            
-            // Update table appearance based on custom order mode
-            if (customOrderActive) {
-                exercisesTable.classList.add('custom-order-active');
-            } else {
-                exercisesTable.classList.remove('custom-order-active');
-            }
-            
-            // Update statistics
-            updateStatistics();
         }
-
-        function handleEditExercise(e) {
-            const index = parseInt(e.currentTarget.getAttribute('data-index'));
-            const exercise = exercises[index];
-            
-            // Fill the form with exercise data
-            exerciseNameInput.value = exercise.name;
-            exerciseLevelInput.value = exercise.level;
-            exerciseTargetInput.value = exercise.target;
-            exerciseProgressInput.value = exercise.progress;
-            exerciseDateInput.value = exercise.date;
-            exerciseVideoInput.value = exercise.video;
-            
-            // Show update and cancel buttons, hide add button
-            addExerciseBtn.style.display = 'none';
-            updateExerciseBtn.style.display = 'inline-flex';
-            cancelEditBtn.style.display = 'inline-flex';
-            
-            // Set current editing index
-            currentEditingIndex = index;
-            
-            // Scroll to form and highlight it
-            const formCard = document.querySelector('.card:nth-child(2)');
-            formCard.scrollIntoView({ behavior: 'smooth' });
-            formCard.classList.add('pulse');
-            setTimeout(() => formCard.classList.remove('pulse'), 500);
-        }
-
+        
         function handleDeleteExercise(e) {
-            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const button = e.currentTarget;
+            const id = button.dataset.id;
+            
             if (confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')) {
-                exercises.splice(index, 1);
+                exercises = exercises.filter(ex => ex.id !== id);
                 saveExercises(exercises);
                 renderExercises();
                 updateChart();
             }
         }
-
-        function handleHistoryClick(e) {
-            const index = parseInt(e.currentTarget.getAttribute('data-index'));
-            const exercise = exercises[index];
-            
-            // Create history modal content
-            const historyModal = document.getElementById('history-modal');
-            const historyContainer = document.getElementById('history-container');
-            const historyHeader = document.getElementById('history-header');
-            const historyTitle = document.getElementById('history-title');
-            const historyClose = document.getElementById('history-close');
-            const historyContent = document.getElementById('history-content');
-            const historyChartContainer = document.getElementById('history-chart-container');
-            const historyEntries = document.getElementById('history-entries');
-            
-            // Set modal title and close button
-            historyTitle.textContent = exercise.name;
-            historyClose.addEventListener('click', () => {
-                historyModal.classList.remove('active');
-            });
-            
-            // Clear previous content
-            historyContent.innerHTML = '';
-            historyEntries.innerHTML = '';
-            
-            // Render history entries
-            if (exercise.history && exercise.history.length > 0) {
-                exercise.history.forEach((entry, index) => {
-                    const entryDate = new Date(entry.date);
-                    const options = { day: 'numeric', month: 'short', year: 'numeric' };
-                    const formattedDate = entryDate.toLocaleDateString('fr-FR', options);
-                    
-                    const entryHtml = `
-                        <div class="history-entry">
-                            <div class="history-entry-date">
-                                <i class="fas fa-calendar-alt"></i> ${formattedDate}
-                            </div>
-                            <div class="history-entry-value">
-                                ${entry.value}
-                            </div>
-                        </div>
-                    `;
-                    
-                    historyEntries.innerHTML += entryHtml;
-                });
-            } else {
-                historyContent.innerHTML = `
-                    <div class="history-empty">
-                        <i class="fas fa-calendar-times"></i>
-                        <p>Aucune entrée pour cet exercice.</p>
-                    </div>
-                `;
-            }
-            
-            // Show modal
-            historyModal.classList.add('active');
-        }
-
-        function handleVideoClick(e) {
-            const url = e.currentTarget.getAttribute('data-url');
-            if (url) {
-                openVideoModal(url);
-            }
-        }
-
-        function openVideoModal(url) {
-            // Extract video ID from URL
-            let videoId = '';
-            let embedHtml = '';
-            
-            // Handle YouTube URLs
-            if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                if (url.includes('youtube.com/watch?v=')) {
-                    videoId = url.split('v=')[1].split('&')[0];
-                } else if (url.includes('youtu.be/')) {
-                    videoId = url.split('youtu.be/')[1].split('?')[0];
-                }
-                
-                if (videoId) {
-                    embedHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" 
-                                  title="YouTube video player" 
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                  allowfullscreen></iframe>`;
-                }
-            } 
-            // Handle Vimeo URLs
-            else if (url.includes('vimeo.com')) {
-                if (url.includes('vimeo.com/')) {
-                    videoId = url.split('vimeo.com/')[1].split('?')[0];
-                }
-                
-                if (videoId) {
-                    embedHtml = `<iframe src="https://player.vimeo.com/video/${videoId}" 
-                                  allow="autoplay; fullscreen; picture-in-picture" 
-                                  allowfullscreen></iframe>`;
-                }
-            } 
-            // For other URLs, create a simple link
-            else {
-                embedHtml = `<div style="padding: 20px; text-align: center;">
-                              <p>Impossible d'intégrer cette vidéo.</p>
-                              <a href="${url}" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 15px;">
-                                <i class="fas fa-external-link-alt"></i> Ouvrir la vidéo dans un nouvel onglet
-                              </a>
-                            </div>`;
-            }
-            
-            // Set the embed HTML and show the modal
-            videoEmbed.innerHTML = embedHtml;
-            videoModal.classList.add('active');
-            
-            // Prevent scrolling on the body
-            document.body.style.overflow = 'hidden';
-        }
-
-        function cancelEdit() {
-            // Clear form
-            exerciseNameInput.value = '';
-            exerciseTargetInput.value = '';
-            exerciseProgressInput.value = '';
-            exerciseLevelInput.value = 'Débutant';
-            exerciseDateInput.value = '';
-            exerciseVideoInput.value = '';
-            
-            // Show add button, hide update and cancel buttons
-            addExerciseBtn.style.display = 'inline-flex';
-            updateExerciseBtn.style.display = 'none';
-            cancelEditBtn.style.display = 'none';
-            
-            // Reset current editing index
-            currentEditingIndex = -1;
-        }
-
-        function addExercise() {
-            const name = exerciseNameInput.value.trim();
-            const level = exerciseLevelInput.value;
-            const target = exerciseTargetInput.value.trim();
-            const progress = exerciseProgressInput.value.trim();
-            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
-            const video = exerciseVideoInput.value.trim();
-            
-            if (!name || !target || !progress) {
-                alert('Veuillez remplir tous les champs.');
-                return;
-            }
-            
-            const completed = calculateCompletion(progress, target);
-            
-            const newExercise = {
-                name,
-                level,
-                target,
-                progress,
-                date: date.toISOString(),
-                completed,
-                video
-            };
-            
-            exercises.push(newExercise);
-            saveExercises(exercises);
-            
-            // Clear form
-            exerciseNameInput.value = '';
-            exerciseTargetInput.value = '';
-            exerciseProgressInput.value = '';
-            exerciseDateInput.value = '';
-            exerciseVideoInput.value = '';
-            
-            renderExercises();
-            updateChart();
-            
-            // Show success message
-            const formCard = document.querySelector('.card:nth-child(2)');
-            formCard.classList.add('pulse');
-            setTimeout(() => formCard.classList.remove('pulse'), 500);
-        }
-
-        function updateExercise() {
-            if (currentEditingIndex === -1) return;
-            
-            const name = exerciseNameInput.value.trim();
-            const level = exerciseLevelInput.value;
-            const target = exerciseTargetInput.value.trim();
-            const progress = exerciseProgressInput.value.trim();
-            const video = exerciseVideoInput.value.trim();
-            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
-            
-            if (!name || !target || !progress) {
-                alert('Veuillez remplir tous les champs.');
-                return;
-            }
-            
-            const completed = calculateCompletion(progress, target);
-            
-            // Create history entry if progress changed
-            const currentExercise = exercises[currentEditingIndex];
-            const historyEntry = {
-                date: date.toISOString(),
-                progress: progress,
-                completed: completed
-            };
-            
-            // Initialize history array if it doesn't exist
-            if (!currentExercise.history) {
-                currentExercise.history = [];
-            }
-            
-            // Only add to history if progress changed
-            if (currentExercise.progress !== progress) {
-                currentExercise.history.push(historyEntry);
-            }
-            
-            exercises[currentEditingIndex] = {
-                ...currentExercise,
-                name,
-                level,
-                target,
-                progress,
-                completed,
-                video,
-                lastPerformed: date.toISOString()
-            };
-            
-            saveExercises(exercises);
-            
-            // Reset form
-            cancelEdit();
-            
-            renderExercises();
-            updateChart();
-        }
-
-        function updateStatistics() {
-            const totalExercises = exercises.length;
-            
-            // Calculate average completion
-            let totalCompletion = 0;
-            exercises.forEach(exercise => {
-                totalCompletion += exercise.completed;
-            });
-            const averageCompletion = totalExercises > 0 ? Math.round(totalCompletion / totalExercises) : 0;
-            
-            // Count completed exercises (>= 90%)
-            const completedExercises = exercises.filter(exercise => exercise.completed >= 90).length;
-            
-            // Update DOM
-            totalExercisesEl.textContent = totalExercises;
-            averageCompletionEl.textContent = `${averageCompletion}%`;
-            completedExercisesEl.textContent = completedExercises;
-            
-            // Add animation
-            document.querySelectorAll('.stat-value').forEach(el => {
-                el.classList.add('pulse');
-                setTimeout(() => el.classList.remove('pulse'), 500);
-            });
-        }
-
+        
         function updateChart() {
             const ctx = document.getElementById('progress-chart').getContext('2d');
             
@@ -1941,7 +1439,7 @@
             // Group exercises by level
             const exercisesByLevel = {};
             levels.forEach(level => {
-                exercisesByLevel[level] = exercises.filter(ex => ex.level === level);
+                exercisesByLevel[level] = exercises.filter(exercise => exercise.level === level);
             });
             
             // Calculate metrics for each level
@@ -1985,42 +1483,30 @@
                             label: 'Nombre d\'exercices',
                             data: countData,
                             backgroundColor: levels.map(level => levelColors[level].background),
-                            borderColor: levels.map(level => levelColors[level].border),
-                            borderWidth: 2,
-                            borderRadius: 4
+                            borderWidth: 1
                         },
                         {
                             label: 'Exercices complétés',
                             data: completedData,
                             backgroundColor: 'rgba(56, 176, 0, 0.2)',
                             borderColor: 'rgba(56, 176, 0, 1)',
-                            borderWidth: 2,
-                            borderRadius: 4
+                            borderWidth: 1
                         },
                         {
                             label: 'Progression moyenne (%)',
                             data: progressData,
                             type: 'line',
                             fill: false,
-                            backgroundColor: 'rgba(255, 190, 11, 0.2)',
                             borderColor: 'rgba(255, 190, 11, 1)',
-                            borderWidth: 3,
-                            tension: 0.2,
-                            pointBackgroundColor: 'rgba(255, 190, 11, 1)',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2,
-                            pointRadius: 5,
-                            pointHoverRadius: 7
+                            borderWidth: 2,
+                            pointRadius: 3
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeOutQuart'
-                    },
+                    animation: false, // Disable animations for better performance
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -2038,43 +1524,35 @@
                         legend: {
                             position: 'top',
                             labels: {
-                                padding: 20,
-                                boxWidth: 15,
-                                usePointStyle: true
+                                padding: 10,
+                                boxWidth: 15
                             }
                         },
                         tooltip: {
-                            backgroundColor: isDarkMode ? '#1e1e1e' : 'rgba(255, 255, 255, 0.9)',
-                            titleColor: isDarkMode ? '#f8f9fa' : '#212529',
-                            bodyColor: isDarkMode ? '#adb5bd' : '#6c757d',
-                            borderColor: isDarkMode ? '#343a40' : '#dee2e6',
-                            borderWidth: 1,
-                            padding: 12,
-                            cornerRadius: 8,
-                            displayColors: true,
-                            usePointStyle: true,
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.dataset.label || '';
-                                    const value = context.parsed.y || 0;
-                                    return `${label}: ${value}${context.datasetIndex === 2 ? '%' : ''}`;
-                                }
-                            }
+                            enabled: true
                         }
                     }
                 }
             });
         }
-
+        
+        function closeVideoModal() {
+            videoModal.classList.remove('active');
+            videoEmbed.innerHTML = '';
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+        
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             
             // Update body attribute
             if (isDarkMode) {
-                document.body.setAttribute('data-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
                 themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
             } else {
-                document.body.removeAttribute('data-theme');
+                document.documentElement.removeAttribute('data-theme');
                 themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
             }
             
@@ -2084,180 +1562,301 @@
             // Update chart
             updateChart();
         }
-
-        function closeVideoModal() {
-            videoModal.classList.remove('active');
-            // Clear the embed after animation completes
-            setTimeout(() => {
-                videoEmbed.innerHTML = '';
-            }, 300);
-            
-            // Re-enable scrolling
-            document.body.style.overflow = '';
-        }
-
-        function exportData() {
-            // Create a formatted JSON string
-            const dataStr = JSON.stringify(exercises, null, 2);
-            
-            // Create a blob and download link
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `calisthenics-tracker-export-${new Date().toISOString().slice(0, 10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            
-            // Clean up
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
-            
-            // Visual feedback
-            exportBtn.classList.add('pulse');
-            setTimeout(() => exportBtn.classList.remove('pulse'), 500);
-        }
-
-        function handleFileImport(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                try {
-                    const importedData = JSON.parse(event.target.result);
+        
+        function handleTableClick(e) {
+            if (e.target.closest('.edit-exercise')) {
+                const button = e.target.closest('.edit-exercise');
+                const id = button.dataset.id;
+                
+                // Find the exercise
+                const exerciseIndex = exercises.findIndex(ex => ex.id == id);
+                if (exerciseIndex !== -1) {
+                    const exercise = exercises[exerciseIndex];
                     
-                    if (Array.isArray(importedData)) {
-                        // Validate imported data structure
-                        const isValid = importedData.every(item => 
-                            typeof item === 'object' && 
-                            'name' in item && 
-                            'level' in item && 
-                            'target' in item && 
-                            'progress' in item
-                        );
-                        
-                        if (isValid) {
-                            // Recalculate completion for all items
-                            importedData.forEach(item => {
-                                item.completed = calculateCompletion(item.progress, item.target);
-                            });
-                            
-                            exercises = importedData;
-                            saveExercises(exercises);
-                            renderExercises();
-                            updateChart();
-                            
-                            // Success feedback
-                            alert('Données importées avec succès!');
-                        } else {
-                            throw new Error('Structure de données invalide');
-                        }
+                    // Fill the form
+                    exerciseNameInput.value = exercise.name;
+                    exerciseLevelInput.value = exercise.level;
+                    exerciseTargetInput.value = exercise.target;
+                    exerciseProgressInput.value = exercise.progress;
+                    
+                    if (exercise.date) {
+                        const date = new Date(exercise.date);
+                        exerciseDateInput.value = date.toISOString().split('T')[0];
                     } else {
-                        throw new Error('Format de fichier invalide');
+                        exerciseDateInput.value = new Date().toISOString().split('T')[0];
                     }
-                } catch (error) {
-                    alert(`Erreur lors de l'importation: ${error.message}`);
+                    
+                    exerciseVideoInput.value = exercise.video || '';
+                    
+                    // Show update and cancel buttons, hide add button
+                    addExerciseBtn.style.display = 'none';
+                    updateExerciseBtn.style.display = 'inline-block';
+                    cancelEditBtn.style.display = 'inline-block';
+                    
+                    // Set current editing index
+                    currentEditingIndex = exerciseIndex;
+                    
+                    // Make sure the add exercise form is visible
+                    const addExerciseContent = document.getElementById('add-exercise-content');
+                    
+                    // Scroll to the form
+                    addExerciseContent.scrollIntoView({ behavior: 'smooth' });
                 }
-            };
-            
-            reader.onerror = function() {
-                alert('Erreur de lecture du fichier');
-            };
-            
-            reader.readAsText(file);
-            
-            // Reset the input
-            e.target.value = '';
+            } else if (e.target.closest('.delete-exercise')) {
+                const button = e.target.closest('.delete-exercise');
+                const id = button.dataset.id;
+                
+                if (confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')) {
+                    // Find and remove the exercise
+                    const exerciseIndex = exercises.findIndex(ex => ex.id == id);
+                    if (exerciseIndex !== -1) {
+                        exercises.splice(exerciseIndex, 1);
+                        saveExercises(exercises);
+                        renderExercises();
+                        updateChart();
+                    }
+                }
+            }
         }
-
+        
+        // Add exercise form submission
+        function addExercise(e) {
+            if (e) e.preventDefault();
+            
+            // If we're in edit mode, don't add a new exercise
+            if (currentEditingIndex !== -1) return;
+            
+            const name = exerciseNameInput.value.trim();
+            const level = exerciseLevelInput.value;
+            const target = exerciseTargetInput.value.trim();
+            const progress = exerciseProgressInput.value.trim();
+            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
+            const video = exerciseVideoInput.value.trim();
+            
+            if (!name || !target || !progress) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            const completed = calculateCompletion(progress, target);
+            
+            const newExercise = {
+                id: `exercise_${Date.now()}`,
+                name,
+                level,
+                target,
+                progress,
+                completed,
+                date: date.toISOString(),
+                video,
+                order: exercises.length // Set order to the end of the list
+            };
+            
+            exercises.push(newExercise);
+            saveExercises(exercises);
+            
+            // Clear form
+            exerciseNameInput.value = '';
+            exerciseTargetInput.value = '';
+            exerciseProgressInput.value = '';
+            exerciseDateInput.value = new Date().toISOString().split('T')[0];
+            exerciseVideoInput.value = '';
+            
+            renderExercises();
+            updateChart();
+        }
+        
+        // Update exercise
+        function updateExercise(e) {
+            if (e) e.preventDefault();
+            
+            if (currentEditingIndex === -1) return;
+            
+            const name = exerciseNameInput.value.trim();
+            const level = exerciseLevelInput.value;
+            const target = exerciseTargetInput.value.trim();
+            const progress = exerciseProgressInput.value.trim();
+            const date = exerciseDateInput.value ? new Date(exerciseDateInput.value) : new Date();
+            const video = exerciseVideoInput.value.trim();
+            
+            if (!name || !target || !progress) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            const completed = calculateCompletion(progress, target);
+            
+            // Update the exercise
+            exercises[currentEditingIndex].name = name;
+            exercises[currentEditingIndex].level = level;
+            exercises[currentEditingIndex].target = target;
+            exercises[currentEditingIndex].progress = progress;
+            exercises[currentEditingIndex].completed = completed;
+            exercises[currentEditingIndex].date = date.toISOString();
+            exercises[currentEditingIndex].video = video;
+            
+            // Add to history if not already there
+            if (!exercises[currentEditingIndex].history) {
+                exercises[currentEditingIndex].history = [];
+            }
+            
+            exercises[currentEditingIndex].history.push({
+                date: date.toISOString(),
+                progress,
+                completed
+            });
+            
+            saveExercises(exercises);
+            
+            // Clear form and reset UI
+            exerciseNameInput.value = '';
+            exerciseTargetInput.value = '';
+            exerciseProgressInput.value = '';
+            exerciseDateInput.value = new Date().toISOString().split('T')[0];
+            exerciseVideoInput.value = '';
+            
+            addExerciseBtn.style.display = 'inline-block';
+            updateExerciseBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+            
+            currentEditingIndex = -1;
+            
+            renderExercises();
+            updateChart();
+        }
+        
+        // Cancel edit
+        function cancelEdit(e) {
+            if (e) e.preventDefault();
+            
+            // Clear form
+            exerciseNameInput.value = '';
+            exerciseTargetInput.value = '';
+            exerciseProgressInput.value = '';
+            exerciseDateInput.value = new Date().toISOString().split('T')[0];
+            exerciseVideoInput.value = '';
+            
+            // Show add button, hide update and cancel buttons
+            addExerciseBtn.style.display = 'inline-block';
+            updateExerciseBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+            
+            currentEditingIndex = -1;
+        }
+        
         // Event Listeners
         levelFilter.addEventListener('change', renderExercises);
         searchInput.addEventListener('input', renderExercises);
-        clearFiltersBtn.addEventListener('click', () => {
-            levelFilter.value = 'all';
-            searchInput.value = '';
-            renderExercises();
-        });
+        clearFiltersBtn.addEventListener('click', clearFilters);
         
-        addExerciseBtn.addEventListener('click', addExercise);
-        updateExerciseBtn.addEventListener('click', updateExercise);
-        cancelEditBtn.addEventListener('click', cancelEdit);
-        
-        exportBtn.addEventListener('click', exportData);
-        importFileInput.addEventListener('change', handleFileImport);
-        themeToggleBtn.addEventListener('click', toggleDarkMode);
-        videoCloseBtn.addEventListener('click', closeVideoModal);
-        
-        customOrderToggle.addEventListener('click', () => {
-            customOrderActive = !customOrderActive;
+        // Function to toggle collapsible sections with accordion behavior
+        function toggleCollapsible() {
+            const content = this.nextElementSibling;
+            const isActive = this.classList.contains('active');
             
-            // If enabling custom order, make sure each exercise has an order property
-            if (customOrderActive) {
-                // Assign order based on current display order if not already set
-                exercises.forEach((exercise, index) => {
-                    if (exercise.order === undefined) {
-                        exercise.order = index;
-                    }
-                });
-                
-                // Save the updated exercises with order property
-                saveExercises(exercises);
-                
-                customOrderToggle.classList.add('active');
-            } else {
-                customOrderToggle.classList.remove('active');
-            }
-            
-            renderExercises();
-        });
-        
-        // Close modal when clicking outside the video container
-        videoModal.addEventListener('click', function(e) {
-            if (e.target === videoModal) {
-                closeVideoModal();
-            }
-        });
-        
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
-                closeVideoModal();
-            }
-        });
-        
-        // Initialize the app
-        if (isDarkMode) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-        
-        // Set date picker to today's date
-        const today = new Date().toISOString().split('T')[0];
-        exerciseDateInput.value = today;
-        
-        renderExercises();
-        updateChart();
-        
-        // Add smooth scrolling for all links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // Close all other collapsible sections first (accordion behavior)
+            document.querySelectorAll('.collapsible').forEach(otherCollapsible => {
+                if (otherCollapsible !== this) {
+                    otherCollapsible.classList.remove('active');
+                    otherCollapsible.setAttribute('aria-expanded', 'false');
+                    const otherContent = otherCollapsible.nextElementSibling;
+                    otherContent.style.display = 'none';
+                    otherContent.classList.remove('active');
                 }
             });
-        });
+            
+            // Toggle this section
+            if (isActive) {
+                // If it was active, close it
+                this.classList.remove('active');
+                content.classList.remove('active');
+                content.style.display = 'none';
+                this.setAttribute('aria-expanded', 'false');
+            } else {
+                // If it wasn't active, open it
+                this.classList.add('active');
+                content.classList.add('active');
+                content.style.display = 'block';
+                this.setAttribute('aria-expanded', 'true');
+            }
+        }
+        
+        // Initialize the app
+        function init() {
+            // Set today's date as default
+            exerciseDateInput.value = new Date().toISOString().split('T')[0];
+            
+            // Load exercises
+            exercises = loadExercises();
+            
+            // Set up event listeners for add exercise form
+            addExerciseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                addExercise();
+            });
+            
+            updateExerciseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                updateExercise();
+            });
+            
+            cancelEditBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                cancelEdit();
+            });
+            
+            // Set up event delegation for table actions
+            exercisesTable.addEventListener('click', handleTableClick);
+            
+            // Set up filter event listeners
+            levelFilter.addEventListener('change', renderExercises);
+            searchInput.addEventListener('input', renderExercises);
+            clearFiltersBtn.addEventListener('click', clearFilters);
+            
+            // Set up theme toggle
+            themeToggleBtn.addEventListener('click', toggleDarkMode);
+            
+            // Set up dark mode
+            if (isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Video modal event listeners
+            videoCloseBtn.addEventListener('click', closeVideoModal);
+            
+            // Render exercises and chart
+            renderExercises();
+            updateChart();
+            
+            // Add drag and drop listeners
+            addDragListeners();
+            
+            // Set up sort handlers
+            document.getElementById('sort-completion').addEventListener('click', function() {
+                if (currentSortField === 'completed') {
+                    // Toggle direction if already sorting by completion
+                    currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSortField = 'completed';
+                    currentSortDirection = 'desc'; // Default to highest first
+                }
+                
+                // Update UI
+                const sortHeaders = document.querySelectorAll('.sortable');
+                sortHeaders.forEach(header => {
+                    header.classList.remove('asc', 'desc');
+                });
+                
+                this.classList.add(currentSortDirection);
+                
+                // Re-render with new sort
+                renderExercises();
+            });
+        }
+        
+        // Call init to start the app
+        init();
         
         // Drag and drop event listeners
         function handleDragStart(e) {
@@ -2351,12 +1950,64 @@
             });
         }
         
-        // Add ID property to exercises if they don't have one
-        exercises.forEach((exercise, index) => {
-            if (!exercise.id) {
-                exercise.id = Date.now() + index;
+        // Clear filters
+        function clearFilters() {
+            levelFilter.value = 'all';
+            searchInput.value = '';
+            renderExercises();
+            
+            // Make sure the filters form is visible
+            const filtersContent = document.getElementById('filters-content');
+            const filtersToggle = document.getElementById('filters-toggle');
+            
+            if (filtersContent && filtersToggle) {
+                filtersContent.classList.add('active');
+                filtersContent.style.display = 'block';
+                filtersToggle.classList.add('active');
+                filtersToggle.setAttribute('aria-expanded', 'true');
             }
-        });
+        }
+        
+        // Toggle dark mode
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            
+            // Update body attribute
+            if (isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Save preference
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Update chart
+            updateChart();
+        }
+        
+        // Sort exercises by custom order or completion
+        function sortExercises(exercisesToSort, field = currentSortField, direction = currentSortDirection) {
+            return [...exercisesToSort].sort((a, b) => {
+                let valueA, valueB;
+                
+                if (field === 'order') {
+                    valueA = a.order !== undefined ? a.order : 9999;
+                    valueB = b.order !== undefined ? b.order : 9999;
+                } else if (field === 'completed') {
+                    valueA = a.completed || 0;
+                    valueB = b.completed || 0;
+                }
+                
+                if (direction === 'asc') {
+                    return valueA - valueB;
+                } else {
+                    return valueB - valueA;
+                }
+            });
+        }
     </script>
 </body>
 </html>
